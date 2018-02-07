@@ -1,0 +1,18 @@
+{
+    "name": "erichard/elasticsearch-query-builder",
+    "license": "MIT",
+    "type": "library",
+    "description": "Create elastic search query with a fluent interface",
+    "authors": [
+        {
+            "name": "Erwan Richard",
+            "email": "erwan.richard@protonmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Erichard\\ElasticQueryBuilder\\": "src/" }
+    },
+    "require": {
+        "php": ">=7.0"
+    }
+}
