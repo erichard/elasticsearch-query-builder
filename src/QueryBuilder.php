@@ -27,6 +27,11 @@ class QueryBuilder
      */
     private $postFilter;
 
+    /**
+     * @var array
+     */
+    private $sort = [];
+
     public function __construct(array $query = [])
     {
         $this->query = $query;
@@ -60,9 +65,9 @@ class QueryBuilder
         return $this;
     }
 
-    public function setSort(array $sort)
+    public function addSort($field, array $config)
     {
-        $this->query['sort'] = $sort;
+        $this->sort[$field] = $config;
 
         return $this;
     }
@@ -106,6 +111,13 @@ class QueryBuilder
 
         if (null !== $this->postFilter) {
             $query['body']['post_filter'] = $this->postFilter->build();
+        }
+
+        if (!empty($this->sort)) {
+            $query['body']['sort'] = [];
+            foreach ($this->sort as $sort => $config) {
+                $query['body']['sort'][$sort] = $config;
+            }
         }
 
         return $query;
