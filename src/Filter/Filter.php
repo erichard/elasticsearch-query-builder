@@ -36,6 +36,16 @@ abstract class Filter
         return new MatchFilter();
     }
 
+    public static function matchPhrase()
+    {
+        return new MatchPhraseFilter();
+    }
+
+    public static function matchPhrasePrefix()
+    {
+        return new MatchPhrasePrefixFilter();
+    }
+
     public static function geoDistance()
     {
         return new GeoDistanceFilter();
