@@ -23,14 +23,14 @@ class WildcardFilter extends Filter
         return $this;
     }
 
-	public static function escapeWildcards($string)
-	{
-		$escapeChars = [ '*', '?'];
-		foreach ($escapeChars as $escapeChar){
-			$string = str_replace($escapeChar, '\\'.$escapeChar, $string);
-		}
-		return $string;
-	}
+    public static function escapeWildcards($string)
+    {
+        $escapeChars = [ '*', '?'];
+        foreach ($escapeChars as $escapeChar){
+            $string = str_replace($escapeChar, '\\'.$escapeChar, $string);
+        }
+        return $string;
+    }
 
     public function build(): array
     {
