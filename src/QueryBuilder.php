@@ -37,6 +37,13 @@ class QueryBuilder
         $this->query = $query;
     }
 
+    public function setSource($source)
+    {
+        $this->query['_source'] = $source;
+
+        return $this;
+    }
+
     public function setType($type)
     {
         $this->query['type'] = $type;

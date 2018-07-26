@@ -16,6 +16,11 @@ abstract class Filter
         return new TermFilter();
     }
 
+    public static function wildcard()
+    {
+        return new WildcardFilter();
+    }
+
     public static function bool()
     {
         return new BoolFilter();
