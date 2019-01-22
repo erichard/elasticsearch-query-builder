@@ -4,6 +4,7 @@ namespace Erichard\ElasticQueryBuilder\Aggregation;
 
 class TermsAggregation extends Aggregation
 {
+    private $aggregation;
     private $field;
     private $script;
     private $size = 10;
@@ -29,6 +30,13 @@ class TermsAggregation extends Aggregation
         return $this;
     }
 
+    public function setAggregation(Aggregation $aggregation)
+    {
+        $this->aggregation = $aggregation;
+
+        return $this;
+    }
+
     public function build(): array
     {
         if (null !== $this->script) {
@@ -45,8 +53,16 @@ class TermsAggregation extends Aggregation
             ];
         }
 
-        return [
+        $query = [
             'terms' => $term,
         ];
+
+        if (null !== $this->aggregation) {
+            $query['aggs'] = [
+                $this->aggregation->getName() => $this->aggregation->build(),
+            ];
+        }
+
+        return $query;
     }
 }
