@@ -28,6 +28,11 @@ abstract class Aggregation
         return new NestedAggregation($name);
     }
 
+    public static function reverseNested($name = null)
+    {
+        return new ReverseNestedAggregation($name);
+    }
+
     public static function filter($name = null)
     {
         return new FilterAggregation($name);
