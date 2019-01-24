@@ -37,4 +37,14 @@ abstract class Aggregation
     {
         return new FilterAggregation($name);
     }
+
+    public static function max($name = null)
+    {
+        return new MaxAggregation($name);
+    }
+
+    public static function min($name = null)
+    {
+        return new MinAggregation($name);
+    }
 }
