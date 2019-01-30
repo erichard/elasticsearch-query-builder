@@ -12,14 +12,7 @@
     "autoload": {
         "psr-4": { "Erichard\\ElasticQueryBuilder\\": "src/" }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/jacbac/elasticsearch-query-builder"
-        }
-    ],
     "require": {
-        "php": ">=7.0",
-        "erichard/elasticsearch-query-builder": "dev-aggregations"
+        "php": ">=7.0"
     }
 }
