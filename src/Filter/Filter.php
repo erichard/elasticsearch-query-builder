@@ -51,6 +51,11 @@ abstract class Filter
         return new MatchPhrasePrefixFilter();
     }
 
+    public static function multiMatch()
+    {
+        return new MultiMatchFilter();
+    }
+
     public static function geoDistance()
     {
         return new GeoDistanceFilter();
