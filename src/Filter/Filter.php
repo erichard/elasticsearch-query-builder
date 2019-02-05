@@ -60,4 +60,9 @@ abstract class Filter
     {
         return new GeoDistanceFilter();
     }
+
+    public static function prefix()
+    {
+        return new PrefixFilter();
+    }
 }
