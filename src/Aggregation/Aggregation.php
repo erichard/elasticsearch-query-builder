@@ -47,4 +47,9 @@ abstract class Aggregation
     {
         return new MinAggregation($name);
     }
+
+    public static function topHits($name = null)
+    {
+        return new TopHitsAggregation($name);
+    }
 }
