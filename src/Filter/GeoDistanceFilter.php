@@ -6,6 +6,7 @@ class GeoDistanceFilter extends Filter
 {
     protected $distance;
     protected $pinLocation;
+    protected $field;
 
     public function setDistance($distance)
     {
@@ -21,12 +22,19 @@ class GeoDistanceFilter extends Filter
         return $this;
     }
 
+    public function setField($field)
+    {
+        $this->field = $field;
+
+        return $this;
+    }
+
     public function build(): array
     {
         return [
             'geo_distance' => [
                 'distance' => $this->distance,
-                'geolocation' => $this->pinLocation,
+                $this->field ? $this->field : 'geolocation' => $this->pinLocation,
             ],
         ];
     }
