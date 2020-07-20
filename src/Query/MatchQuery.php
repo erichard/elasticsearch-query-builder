@@ -1,10 +1,10 @@
 <?php
 
-namespace Erichard\ElasticQueryBuilder\Filter;
+namespace Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\QueryException;
 
-class MatchFilter extends Filter
+class MatchQuery implements QueryInterface
 {
     protected $field;
     protected $query;

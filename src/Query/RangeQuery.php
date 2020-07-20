@@ -1,10 +1,10 @@
 <?php
 
-namespace Erichard\ElasticQueryBuilder\Filter;
+namespace Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\QueryException;
 
-class RangeFilter extends Filter
+class RangeQuery implements QueryInterface
 {
     protected $field;
     protected $lt;
@@ -49,28 +49,28 @@ class RangeFilter extends Filter
 
     public function build(): array
     {
-        $filter = [];
+        $query = [];
 
         if (null !== $this->gt) {
-            $filter['gt'] = $this->gt;
+            $query['gt'] = $this->gt;
         }
         if (null !== $this->lt) {
-            $filter['lt'] = $this->lt;
+            $query['lt'] = $this->lt;
         }
         if (null !== $this->gte) {
-            $filter['gte'] = $this->gte;
+            $query['gte'] = $this->gte;
         }
         if (null !== $this->lte) {
-            $filter['lte'] = $this->lte;
+            $query['lte'] = $this->lte;
         }
 
-        if (empty($filter)) {
-            throw new QueryException('Empty filter');
+        if (empty($query)) {
+            throw new QueryException('Empty Query');
         }
 
         return [
             'range' => [
-                $this->field => $filter,
+                $this->field => $query,
             ],
         ];
     }

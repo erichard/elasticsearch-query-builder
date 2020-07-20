@@ -1,10 +1,10 @@
 <?php
 
-namespace Erichard\ElasticQueryBuilder\Filter;
+namespace Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\QueryException;
 
-class WildcardFilter extends Filter
+class WildcardQuery implements QueryInterface
 {
     protected $field;
     protected $value;
@@ -25,10 +25,11 @@ class WildcardFilter extends Filter
 
     public static function escapeWildcards($string)
     {
-        $escapeChars = [ '*', '?'];
-        foreach ($escapeChars as $escapeChar){
+        $escapeChars = ['*', '?'];
+        foreach ($escapeChars as $escapeChar) {
             $string = str_replace($escapeChar, '\\'.$escapeChar, $string);
         }
+
         return $string;
     }
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Erichard\ElasticQueryBuilder\Filter;
+namespace Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\QueryException;
 
-class PrefixFilter extends Filter
+class PrefixQuery implements QueryInterface
 {
     protected $field;
     protected $value;

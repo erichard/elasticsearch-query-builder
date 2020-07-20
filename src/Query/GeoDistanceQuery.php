@@ -1,12 +1,12 @@
 <?php
 
-namespace Erichard\ElasticQueryBuilder\Filter;
+namespace Erichard\ElasticQueryBuilder\Query;
 
-class GeoDistanceFilter extends Filter
+class GeoDistanceQuery implements QueryInterface
 {
-    protected $distance;
-    protected $pinLocation;
-    protected $field;
+    private $distance;
+    private $pinLocation;
+    private $field;
 
     public function setDistance($distance)
     {

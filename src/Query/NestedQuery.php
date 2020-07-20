@@ -1,11 +1,11 @@
 <?php
 
-namespace Erichard\ElasticQueryBuilder\Filter;
+namespace Erichard\ElasticQueryBuilder\Query;
 
-class NestedFilter extends Filter
+class NestedQuery implements QueryInterface
 {
     protected $path;
-    protected $filter;
+    protected $query;
 
     public function setNestedPath(string $path)
     {
@@ -14,9 +14,9 @@ class NestedFilter extends Filter
         return $this;
     }
 
-    public function setFilter(Filter $filter)
+    public function setQuery(Query $query)
     {
-        $this->filter = $filter;
+        $this->query = $query;
 
         return $this;
     }
@@ -26,7 +26,7 @@ class NestedFilter extends Filter
         return [
             'nested' => [
                 'path' => $this->path,
-                'query' => $this->filter->build(),
+                'query' => $this->query->build(),
             ],
         ];
     }
