@@ -4,9 +4,9 @@ namespace Erichard\ElasticQueryBuilder\Query;
 
 class Query
 {
-    public static function terms(): TermsQuery
+    public static function terms(string $field = null, array $values = []): TermsQuery
     {
-        return new TermsQuery();
+        return new TermsQuery($field, $values);
     }
 
     public static function term(string $field = null, $value = null): TermQuery
