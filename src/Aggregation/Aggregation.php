@@ -24,7 +24,7 @@ abstract class Aggregation
         return new TermsAggregation($name);
     }
 
-    public static function dateHistogram(string $name): TermsAggregation
+    public static function dateHistogram(string $name): DateHistogramAggregation
     {
         return new DateHistogramAggregation($name);
     }
