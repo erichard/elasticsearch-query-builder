@@ -3,6 +3,8 @@ ElasticSearch Query Builder
 
 This is a PHP library which helps you build query for an ElasticSearch client by using a fluent interface.
 
+WARNING: This branch contains the next 3.x release. Check the [corresponding issue](https://github.com/erichard/elasticsearch-query-builder/issues/7) for the roadmap.
+
 Installation
 ------------
 
