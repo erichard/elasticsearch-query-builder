@@ -2,13 +2,23 @@
 
 namespace Erichard\ElasticQueryBuilder\Query;
 
-use Erichard\ElasticQueryBuilder\QueryException;
-
 class MatchPhrasePrefixQuery implements QueryInterface
 {
+    /** @var string */
     protected $field;
+
+    /** @var string */
     protected $query;
+
+    /** @var string */
     protected $analyzer;
+
+    public function __construct(string $field, string $query, string $analyzer = null)
+    {
+        $this->field = $field;
+        $this->query = $query;
+        $this->analyzer = $analyzer;
+    }
 
     public function setField(string $field)
     {
@@ -24,7 +34,7 @@ class MatchPhrasePrefixQuery implements QueryInterface
         return $this;
     }
 
-    public function setAnalyzer($analyzer)
+    public function setAnalyzer(string $analyzer)
     {
         $this->analyzer = $analyzer;
 
@@ -33,10 +43,6 @@ class MatchPhrasePrefixQuery implements QueryInterface
 
     public function build(): array
     {
-        if (null === $this->query) {
-            throw new QueryException('You need to call setQuery() on'.__CLASS__);
-        }
-
         $query = [
             'match_phrase_prefix' => [
                 $this->field => [

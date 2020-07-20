@@ -43,18 +43,6 @@ class GeoDistanceQuery implements QueryInterface
 
     public function build(): array
     {
-        if (empty($this->distance)) {
-            throw new QueryException('You should call GeoDistanceQuery::setDistance() before building this query');
-        }
-
-        if (empty($this->field)) {
-            throw new QueryException('You should call GeoDistanceQuery::setField() before building this query');
-        }
-
-        if (empty($this->position)) {
-            throw new QueryException('You should call GeoDistanceQuery::setPosition() before building this query');
-        }
-
         return [
             'geo_distance' => [
                 'distance' => $this->distance,
