@@ -20,21 +20,21 @@ class MatchPhrasePrefixQuery implements QueryInterface
         $this->analyzer = $analyzer;
     }
 
-    public function setField(string $field)
+    public function setField(string $field): self
     {
         $this->field = $field;
 
         return $this;
     }
 
-    public function setQuery(string $query)
+    public function setQuery(string $query): self
     {
         $this->query = $query;
 
         return $this;
     }
 
-    public function setAnalyzer(string $analyzer)
+    public function setAnalyzer(string $analyzer): self
     {
         $this->analyzer = $analyzer;
 
