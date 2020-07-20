@@ -7,11 +7,36 @@ abstract class Aggregation
     /** @var string */
     private $name;
 
+    /** @var array */
+    private $aggregations = [];
+
     abstract public function build(): array;
+
+    public function buildRecursivly(): array
+    {
+        $build = $this->build();
+
+        if (!empty($this->aggregations)) {
+            $build['aggs'] = [];
+
+            foreach($this->aggregations as $aggregation) {
+                $build['aggs'][$aggregation->getName()] = $aggregation->buildRecursivly();
+            }
+        }
+
+        return $build;
+    }
 
     public function __construct(string $name)
     {
         $this->name = $name;
+    }
+
+    public function addAggregation(Aggregation $aggregation)
+    {
+        $this->aggregations[$aggregation->getName()] = $aggregation;
+
+        return $this;
     }
 
     public function getName(): string

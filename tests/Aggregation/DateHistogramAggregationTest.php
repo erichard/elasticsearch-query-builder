@@ -40,4 +40,18 @@ class DateHistogramAggregationTest extends TestCase
             ]
         ], $aggregation->build());
     }
+
+    public function test_it_build_the_aggregation_recursivly()
+    {
+        $aggregation = new DateHistogramAggregation('price_evolution');
+        $aggregation->setField('price');
+        $aggregation->setCalendarInterval('1d');
+
+        $this->assertEquals([
+            'date_histogram' => [
+                'field' => 'price',
+                'calendar_interval' => '1d',
+            ]
+        ], $aggregation->build());
+    }
 }

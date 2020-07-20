@@ -2,10 +2,10 @@
 
 namespace Erichard\ElasticQueryBuilder\Aggregation;
 
-class MaxAggregation extends MetricAggregation
+class SumAggregation extends MetricAggregation
 {
     public function getMetricName(): string
     {
-        return 'max';
+        return 'sum';
     }
 }

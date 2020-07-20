@@ -110,7 +110,7 @@ class QueryBuilder
         if (!empty($this->aggregations)) {
             $query['body']['aggs'] = [];
             foreach ($this->aggregations as $aggregation) {
-                $query['body']['aggs'][$aggregation->getName()] = $aggregation->build();
+                $query['body']['aggs'][$aggregation->getName()] = $aggregation->buildRecursivly();
             }
         }
 
