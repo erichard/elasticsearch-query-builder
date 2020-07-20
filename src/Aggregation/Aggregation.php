@@ -79,6 +79,11 @@ abstract class Aggregation
         return new MinAggregation($name);
     }
 
+    public static function sum(string $name): SumAggregation
+    {
+        return new SumAggregation($name);
+    }
+
     public static function topHits(string $name): TopHitsAggregation
     {
         return new TopHitsAggregation($name);
