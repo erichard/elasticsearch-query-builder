@@ -8,20 +8,9 @@ use PHPUnit\Framework\TestCase;
 
 class MaxAggregationTest extends TestCase
 {
-    public function test_it_build_the_aggregation_using_constructor()
-    {
-        $query = new MaxAggregation('price');
-
-        $this->assertEquals([
-            'max' => [
-                'field' => 'price',
-            ],
-        ], $query->build());
-    }
-
     public function test_it_build_the_aggregation_using_a_field()
     {
-        $query = new MaxAggregation();
+        $query = new MaxAggregation('max_price');
         $query->setField('price');
 
         $this->assertEquals([
@@ -33,7 +22,7 @@ class MaxAggregationTest extends TestCase
 
     public function test_it_build_the_aggregation_using_a_script()
     {
-        $query = new MaxAggregation();
+        $query = new MaxAggregation('max_price');
         $query->setScript('doc.price.value');
 
         $this->assertEquals([
@@ -47,7 +36,7 @@ class MaxAggregationTest extends TestCase
 
     public function test_it_fail_building_the_aggregation_without_field()
     {
-        $query = new MaxAggregation();
+        $query = new MaxAggregation('max_price');
 
         $this->expectException(QueryException::class);
 
@@ -56,7 +45,8 @@ class MaxAggregationTest extends TestCase
 
     public function test_it_build_the_aggregation_with_missing_value()
     {
-        $query = new MaxAggregation('price');
+        $query = new MaxAggregation('max_price');
+        $query->setField('price');
         $query->setMissing(10);
 
         $this->assertEquals([

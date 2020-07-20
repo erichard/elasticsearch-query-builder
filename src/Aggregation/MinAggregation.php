@@ -15,11 +15,6 @@ class MinAggregation extends Aggregation
     /** @var integer */
     private $missing;
 
-    public function __construct(string $field = null)
-    {
-        $this->field = $field;
-    }
-
     public function setField(string $field)
     {
         $this->field = $field;
