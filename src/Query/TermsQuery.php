@@ -10,12 +10,12 @@ class TermsQuery implements QueryInterface
     protected $field;
 
     /** @var array */
-    protected $value;
+    protected $values = [];
 
-    public function __construct(string $field = null, array $value = [])
+    public function __construct(string $field = null, array $values = [])
     {
         $this->field = $field;
-        $this->value = $value;
+        $this->values = $values;
     }
 
     public function setField(string $field): self
@@ -25,9 +25,9 @@ class TermsQuery implements QueryInterface
         return $this;
     }
 
-    public function setValues(array $value): self
+    public function setValues(array $values): self
     {
-        $this->value = $value;
+        $this->values = $values;
 
         return $this;
     }
@@ -37,7 +37,7 @@ class TermsQuery implements QueryInterface
         if (null === $this->field) {
             throw new QueryException('You need to call setField() on'.__CLASS__);
         }
-        if (null === $this->value) {
+        if (empty($this->values)) {
             throw new QueryException('You need to call setValues() on'.__CLASS__);
         }
 
