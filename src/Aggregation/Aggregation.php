@@ -69,6 +69,11 @@ abstract class Aggregation
         return new FilterAggregation($name);
     }
 
+    public static function cardinality(string $name): CardinalityAggregation
+    {
+        return new CardinalityAggregation($name);
+    } 
+
     public static function max(string $name): MaxAggregation
     {
         return new MaxAggregation($name);
