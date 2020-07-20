@@ -6,10 +6,19 @@ use Erichard\ElasticQueryBuilder\QueryException;
 
 class MinAggregation extends Aggregation
 {
+    /** @var string */
     private $field;
+
+    /** @var string */
     private $script;
-    private $valueScript;
+
+    /** @var integer */
     private $missing;
+
+    public function __construct(string $field = null)
+    {
+        $this->field = $field;
+    }
 
     public function setField(string $field)
     {
@@ -21,13 +30,6 @@ class MinAggregation extends Aggregation
     public function setScript(string $script)
     {
         $this->script = $script;
-
-        return $this;
-    }
-
-    public function setValueScript(string $valueScript)
-    {
-        $this->valueScript = $valueScript;
 
         return $this;
     }
@@ -47,24 +49,20 @@ class MinAggregation extends Aggregation
                     'source' => $this->script,
                 ],
             ];
-        } else {
+        } elseif (null !== $this->field) {
             $term = [
                 'field' => $this->field,
             ];
-        }
-
-        if (null !== $this->valueScript) {
-            throw new QueryException('Not implemented option.');
+        } else {
+            throw new QueryException('You should call MinAggregation::setField() or MinAggregation::setScript() ');
         }
 
         if (null !== $this->missing) {
             $term['missing'] = $this->missing;
         }
 
-        $query = [
+        return [
             'min' => $term,
         ];
-
-        return $query;
     }
 }
