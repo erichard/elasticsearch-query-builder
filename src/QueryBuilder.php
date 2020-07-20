@@ -84,6 +84,8 @@ class QueryBuilder
     public function setPostFilter(QueryInterface $filter): self
     {
         $this->postFilter = $filter;
+
+        return $this;
     }
 
     public function build(): array
