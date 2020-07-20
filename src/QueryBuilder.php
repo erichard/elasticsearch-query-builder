@@ -4,6 +4,7 @@ namespace Erichard\ElasticQueryBuilder;
 
 use Erichard\ElasticQueryBuilder\Aggregation\Aggregation;
 use Erichard\ElasticQueryBuilder\Query\Query;
+use Erichard\ElasticQueryBuilder\Query\QueryInterface;
 
 class QueryBuilder
 {
@@ -73,14 +74,14 @@ class QueryBuilder
         return $this;
     }
 
-    public function setQuery(Query $filter): self
+    public function setQuery(QueryInterface $filter): self
     {
         $this->filter = $filter;
 
         return $this;
     }
 
-    public function setPostFilter(Query $filter): self
+    public function setPostFilter(QueryInterface $filter): self
     {
         $this->postFilter = $filter;
     }

@@ -51,7 +51,7 @@ class BoolQuery implements QueryInterface
         return empty($this->must)
             && empty($this->mustNot)
             && empty($this->should)
-            && empty($this->query)
+            && empty($this->filter)
         ;
     }
 
