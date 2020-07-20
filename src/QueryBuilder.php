@@ -3,104 +3,109 @@
 namespace Erichard\ElasticQueryBuilder;
 
 use Erichard\ElasticQueryBuilder\Aggregation\Aggregation;
-use Erichard\ElasticQueryBuilder\Filter\Filter;
+use Erichard\ElasticQueryBuilder\Query\Query;
 
 class QueryBuilder
 {
-    /**
-     * @var array
-     */
-    private $query;
+    /** @var string|null */
+    private $index;
 
-    /**
-     * @var array
-     */
+    /** @var mixed|null */
+    private $source;
+
+    /** @var int|null */
+    private $from;
+
+    /** @var int|null */
+    private $size;
+
+    /** @var array */
     private $aggregations = [];
 
-    /**
-     * @var array
-     */
-    private $filters = [];
+    /** @var Query|null */
+    private $query;
 
-    /**
-     * @var Filter
-     */
+    /** @var Query */
     private $postFilter;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $sort = [];
 
-    public function __construct(array $query = [])
+    public function setSource($source): self
     {
-        $this->query = $query;
-    }
-
-    public function setSource($source)
-    {
-        $this->query['_source'] = $source;
+        $this->source = $source;
 
         return $this;
     }
 
-    public function setType($type)
+    public function setIndex(string $index): self
     {
-        $this->query['type'] = $type;
+        $this->index = $index;
 
         return $this;
     }
 
-    public function setIndex($index)
+    public function setFrom(int $from): self
     {
-        $this->query['index'] = $index;
+        $this->from = $from;
 
         return $this;
     }
 
-    public function setFrom($from)
+    public function setSize(int $size): self
     {
-        $this->query['from'] = $from;
+        $this->size = $size;
 
         return $this;
     }
 
-    public function setSize($size)
-    {
-        $this->query['size'] = $size;
-
-        return $this;
-    }
-
-    public function addSort($field, array $config)
+    public function addSort(string $field, array $config): self
     {
         $this->sort[$field] = $config;
 
         return $this;
     }
 
-    public function addAggregation(Aggregation $aggregation)
+    public function addAggregation(Aggregation $aggregation): self
     {
         $this->aggregations[] = $aggregation;
 
         return $this;
     }
 
-    public function addFilter(Filter $filter)
+    public function setQuery(Query $filter): self
     {
-        $this->filters[] = $filter;
+        $this->filter = $filter;
 
         return $this;
     }
 
-    public function setPostFilter(Filter $filter)
+    public function setPostFilter(Query $filter): self
     {
         $this->postFilter = $filter;
     }
 
-    public function getQuery()
+    public function build(): array
     {
-        $query = $this->query;
+        $query = [
+            'body' => [],
+        ];
+
+        if (null !== $this->index) {
+            $query['index'] = $this->index;
+        }
+
+        if (null !== $this->from) {
+            $query['from'] = $this->from;
+        }
+
+        if (null !== $this->size) {
+            $query['size'] = $this->size;
+        }
+
+        if (null !== $this->source) {
+            $query['_source'] = $this->source;
+        }
 
         if (!empty($this->aggregations)) {
             $query['body']['aggs'] = [];
@@ -109,11 +114,8 @@ class QueryBuilder
             }
         }
 
-        if (!empty($this->filters)) {
-            $query['body']['query'] = [];
-            foreach ($this->filters as $filter) {
-                $query['body']['query'] = $filter->build();
-            }
+        if (null !== $this->query) {
+            $query['body']['query'] = $this->query->build();
         }
 
         if (null !== $this->postFilter) {

@@ -1,30 +1,40 @@
 <?php
 
-namespace Erichard\ElasticQueryBuilder\Filter;
+namespace Erichard\ElasticQueryBuilder\Query;
 
-use Erichard\ElasticQueryBuilder\QueryException;
-
-class MatchPhrasePrefixFilter extends Filter
+class MatchPhrasePrefixQuery implements QueryInterface
 {
+    /** @var string */
     protected $field;
+
+    /** @var string */
     protected $query;
+
+    /** @var string */
     protected $analyzer;
 
-    public function setField(string $field)
+    public function __construct(string $field, string $query, string $analyzer = null)
+    {
+        $this->field = $field;
+        $this->query = $query;
+        $this->analyzer = $analyzer;
+    }
+
+    public function setField(string $field): self
     {
         $this->field = $field;
 
         return $this;
     }
 
-    public function setQuery(string $query)
+    public function setQuery(string $query): self
     {
         $this->query = $query;
 
         return $this;
     }
 
-    public function setAnalyzer($analyzer)
+    public function setAnalyzer(string $analyzer): self
     {
         $this->analyzer = $analyzer;
 
@@ -33,10 +43,6 @@ class MatchPhrasePrefixFilter extends Filter
 
     public function build(): array
     {
-        if (null === $this->query) {
-            throw new QueryException('You need to call setQuery() on'.__CLASS__);
-        }
-
         $query = [
             'match_phrase_prefix' => [
                 $this->field => [

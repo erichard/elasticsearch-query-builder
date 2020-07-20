@@ -1,13 +1,22 @@
 <?php
 
-namespace Erichard\ElasticQueryBuilder\Filter;
+namespace Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\QueryException;
 
-class TermFilter extends Filter
+class TermQuery implements QueryInterface
 {
+    /** @var string */
     protected $field;
+
+    /** @var mixed */
     protected $value;
+
+    public function __construct(string $field = null, $value = null)
+    {
+        $this->field = $field;
+        $this->value = $value;
+    }
 
     public function setField(string $field)
     {

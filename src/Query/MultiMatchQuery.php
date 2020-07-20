@@ -1,10 +1,10 @@
 <?php
 
-namespace Erichard\ElasticQueryBuilder\Filter;
+namespace Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\QueryException;
 
-class MultiMatchFilter extends Filter
+class MultiMatchQuery implements QueryInterface
 {
     protected $fields;
     protected $query;

@@ -1,10 +1,10 @@
 <?php
 
-namespace Erichard\ElasticQueryBuilder\Filter;
+namespace Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\QueryException;
 
-class MatchPhraseFilter extends Filter
+class MatchQuery implements QueryInterface
 {
     protected $field;
     protected $query;
@@ -38,7 +38,7 @@ class MatchPhraseFilter extends Filter
         }
 
         $query = [
-            'match_phrase' => [
+            'match' => [
                 $this->field => [
                     'query' => $this->query,
                 ],
@@ -46,7 +46,7 @@ class MatchPhraseFilter extends Filter
         ];
 
         if (null !== $this->analyzer) {
-            $query['match_phrase'][$this->field]['analyzer'] = $this->analyzer;
+            $query['match'][$this->field]['analyzer'] = $this->analyzer;
         }
 
         return $query;

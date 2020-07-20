@@ -1,8 +1,8 @@
 <?php
 
-namespace Erichard\ElasticQueryBuilder\Filter;
+namespace Erichard\ElasticQueryBuilder\Query;
 
-class TermsFilter extends TermFilter
+class TermsQuery extends TermQuery
 {
     public function build(): array
     {
