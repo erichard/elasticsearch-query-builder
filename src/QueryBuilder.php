@@ -74,16 +74,16 @@ class QueryBuilder
         return $this;
     }
 
-    public function setQuery(QueryInterface $filter): self
+    public function setQuery(QueryInterface $query): self
     {
-        $this->filter = $filter;
+        $this->query = $query;
 
         return $this;
     }
 
-    public function setPostFilter(QueryInterface $filter): self
+    public function setPostFilter(QueryInterface $query): self
     {
-        $this->postFilter = $filter;
+        $this->postFilter = $query;
 
         return $this;
     }
