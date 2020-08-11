@@ -4,12 +4,6 @@ namespace Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\QueryException;
 
-<?php
-
-namespace Erichard\ElasticQueryBuilder\Query;
-
-use Erichard\ElasticQueryBuilder\QueryException;
-
 class ExistsQuery implements QueryInterface
 {
 
