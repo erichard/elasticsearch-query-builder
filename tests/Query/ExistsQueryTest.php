@@ -4,7 +4,6 @@ namespace Tests\Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\Query\ExistsQuery;
 use Erichard\ElasticQueryBuilder\QueryException;
-use Erichard\ElasticQueryBuilder\Query\TermsQuery;
 use PHPUnit\Framework\TestCase;
 
 class ExistsQueryTest extends TestCase
@@ -22,7 +21,7 @@ class ExistsQueryTest extends TestCase
 
     public function test_it_cannot_be_built_empty()
     {
-        $query = new TermsQuery();
+        $query = new ExistsQuery();
 
         $this->expectException(QueryException::class);
 
