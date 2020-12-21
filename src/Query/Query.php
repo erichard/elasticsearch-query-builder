@@ -68,4 +68,9 @@ class Query
     {
         return new QueryStringQuery($query, $defaultField);
     }
+
+    public static function rankFeature(string $field, float $boost = null): RankFeatureQuery
+    {
+        return new RankFeatureQuery($field, $boost);
+    }
 }
