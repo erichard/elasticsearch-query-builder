@@ -63,4 +63,9 @@ class Query
     {
         return new PrefixQuery();
     }
+
+    public static function queryString(string $query, string $defaultField = null): QueryStringQuery
+    {
+        return new QueryStringQuery($query, $defaultField);
+    }
 }
