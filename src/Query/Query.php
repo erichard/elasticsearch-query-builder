@@ -2,6 +2,8 @@
 
 namespace Erichard\ElasticQueryBuilder\Query;
 
+use GeoShapeQuery;
+
 class Query
 {
     public static function terms(string $field = null, array $values = []): TermsQuery
@@ -57,6 +59,11 @@ class Query
     public static function geoDistance(): GeoDistanceQuery
     {
         return new GeoDistanceQuery();
+    }
+
+    public static function geoShape(): GeoShapeQuery
+    {
+        return new GeoShapeQuery();
     }
 
     public static function prefix(): PrefixQuery
