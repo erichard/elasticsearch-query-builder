@@ -12,7 +12,7 @@ class TermsQuery implements QueryInterface
     /** @var array */
     protected $values = [];
 
-    public function __construct(string $field = null, array $values = [])
+    public function __construct(string $field = null, ?array $values = [])
     {
         $this->field = $field;
         $this->values = $values;

@@ -34,4 +34,20 @@ class MatchQueryTest extends TestCase
             ],
         ], $query->build());
     }
+
+    public function test_it_builds_the_query_from_setters()
+    {
+        $query = new MatchQuery();
+
+        $query->setField('title')
+            ->setQuery('a brown fox');
+
+        $this->assertEquals([
+            'match' => [
+                'title' => [
+                    'query' => 'a brown fox'
+                ],
+            ],
+        ], $query->build());
+    }
 }

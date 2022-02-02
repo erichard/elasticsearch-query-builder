@@ -27,4 +27,19 @@ class ExistsQueryTest extends TestCase
 
         $query->build();
     }
+
+    public function test_it_builds_the_query_from_setters()
+    {
+        $query = new ExistsQuery();
+
+        $query->setField('someFieldName');
+
+        $this->assertEquals([
+            'exists' => [
+                'field' => 'someFieldName',
+            ],
+        ], $query->build());
+    }
+
+    
 }

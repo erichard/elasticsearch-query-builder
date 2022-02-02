@@ -9,7 +9,7 @@ class GeoShapeQuery implements QueryInterface
     /** @var string */
     private $type;
 
-    /** @var array */
+    /** @var array|int[]|float[] */
     private $coordinates;
 
     /** @var string */
@@ -17,6 +17,14 @@ class GeoShapeQuery implements QueryInterface
 
     /** @var string */
     private $relation = 'within';
+
+    public function __construct(?string $field = null, ?string $type = null, ?array $coordinates = [], string $relation = 'within')
+    {
+        $this->field = $field;
+        $this->type = $type;
+        $this->coordinates = $coordinates;
+        $this->relation = $relation;
+    }
 
     public function setType(string $type): self
     {

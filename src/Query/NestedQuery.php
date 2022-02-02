@@ -4,8 +4,16 @@ namespace Erichard\ElasticQueryBuilder\Query;
 
 class NestedQuery implements QueryInterface
 {
+    /** @var string */
     protected $path;
+    /** @var QueryInterface */
     protected $query;
+
+    public function __construct(?string $path = null, ?QueryInterface $query = null)
+    {
+        $this->path = $path;
+        $this->query = $query;
+    }
 
     public function setNestedPath(string $path)
     {
@@ -14,7 +22,7 @@ class NestedQuery implements QueryInterface
         return $this;
     }
 
-    public function setQuery(Query $query)
+    public function setQuery(QueryInterface $query)
     {
         $this->query = $query;
 

@@ -6,11 +6,17 @@ use Erichard\ElasticQueryBuilder\QueryException;
 
 class RangeQuery implements QueryInterface
 {
+    /** @var string */
     protected $field;
     protected $lt;
     protected $gt;
     protected $lte;
     protected $gte;
+
+    public function __construct(?string $field = null)
+    {
+        $this->field = $field;
+    }
 
     public function setField(string $field)
     {
