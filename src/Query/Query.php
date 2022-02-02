@@ -2,8 +2,6 @@
 
 namespace Erichard\ElasticQueryBuilder\Query;
 
-use GeoShapeQuery;
-
 class Query
 {
     public static function terms(string $field = null, array $values = []): TermsQuery

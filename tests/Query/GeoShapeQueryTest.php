@@ -9,9 +9,12 @@ class GeoShapeQueryTest extends TestCase
 {
     public function test_it_builds_the_query()
     {
-        $query = new GeoShapeQuery(
-            'polygon', 'coordinates', [[-70, 40]], 'test'
-        );
+        $query = new GeoShapeQuery();
+
+        $query->setType('polygon');
+        $query->setCoordinates([[-70, 40]]);
+        $query->setField('coordinates');
+        $query->setRelation('within');
 
         $this->assertEquals([
             'geo_shape' => [
@@ -20,7 +23,7 @@ class GeoShapeQueryTest extends TestCase
                         'type' => 'polygon',
                         'coordinates' => [[-70, 40]]
                     ],
-                    'relation' => 'test'
+                    'relation' => 'within'
                 ]
             ]
         ], $query->build());
