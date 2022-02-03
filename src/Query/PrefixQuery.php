@@ -14,11 +14,10 @@ class PrefixQuery implements QueryInterface
     /** @var float */
     protected $boost;
 
-    public function __construct(?string $field = null, $value = null, ?float $boost = null)
+    public function __construct(string $field, $value)
     {
         $this->field = $field;
         $this->value = $value;
-        $this->boost = $boost;
     }
 
     public function setField(string $field)

@@ -9,7 +9,7 @@ class NestedQuery implements QueryInterface
     /** @var QueryInterface */
     protected $query;
 
-    public function __construct(?string $path = null, ?QueryInterface $query = null)
+    public function __construct(?string $path, QueryInterface $query)
     {
         $this->path = $path;
         $this->query = $query;

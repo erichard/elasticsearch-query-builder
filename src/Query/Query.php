@@ -4,17 +4,17 @@ namespace Erichard\ElasticQueryBuilder\Query;
 
 class Query
 {
-    public static function terms(string $field = null, array $values = []): TermsQuery
+    public static function terms(string $field, array $values): TermsQuery
     {
         return new TermsQuery($field, $values);
     }
 
-    public static function term(string $field = null, $value = null): TermQuery
+    public static function term(string $field, $value): TermQuery
     {
         return new TermQuery($field, $value);
     }
 
-    public static function wildcard(string $field = null, $value = null): WildcardQuery
+    public static function wildcard(string $field, $value): WildcardQuery
     {
         return new WildcardQuery($field, $value);
     }
@@ -24,58 +24,58 @@ class Query
         return new BoolQuery();
     }
 
-    public static function range(string $field = null): RangeQuery
+    public static function range(string $field): RangeQuery
     {
         return new RangeQuery($field);
     }
 
-    public static function nested(string $field = null, QueryInterface $query = null): NestedQuery
+    public static function nested(string $field, QueryInterface $query): NestedQuery
     {
         return new NestedQuery($field, $query);
     }
 
-    public static function match(string $field = null, $query = null): MatchQuery
+    public static function match(string $field, $query): MatchQuery
     {
         return new MatchQuery($field, $query);
     }
 
-    public static function matchPhrase(string $field = null, $query = null): MatchPhraseQuery
+    public static function matchPhrase(string $field, $query): MatchPhraseQuery
     {
         return new MatchPhraseQuery($field, $query);
     }
 
-    public static function matchPhrasePrefix(string $field = null, $query = null): MatchPhrasePrefixQuery
+    public static function matchPhrasePrefix(string $field, $query): MatchPhrasePrefixQuery
     {
         return new MatchPhrasePrefixQuery($field, $query);
     }
 
-    public static function multiMatch(array $fields = [], $query = null, $type = null, $fuzziness = null): MultiMatchQuery
+    public static function multiMatch(array $fields, $query): MultiMatchQuery
     {
-        return new MultiMatchQuery($fields, $query, $type, $fuzziness);
+        return new MultiMatchQuery($fields, $query);
     }
 
-    public static function geoDistance(string $field = null, string $distance = null, array $position = []): GeoDistanceQuery
+    public static function geoDistance(string $field, string $distance, array $position): GeoDistanceQuery
     {
         return new GeoDistanceQuery($distance, $field, $position);
     }
 
-    public static function geoShape(string $field = null, ?string $type = null, array $coordinates = [], ?string $relation = null): GeoShapeQuery
+    public static function geoShape(string $field, string $type, array $coordinates): GeoShapeQuery
     {
-        return new GeoShapeQuery($field, $type, $coordinates, $relation);
+        return new GeoShapeQuery($field, $type, $coordinates);
     }
 
-    public static function prefix(string $field = null, $value = null, float $boost = null): PrefixQuery
+    public static function prefix(string $field, $value): PrefixQuery
     {
-        return new PrefixQuery($field, $value, $boost);
+        return new PrefixQuery($field, $value);
     }
 
-    public static function queryString(string $query = null, string $defaultField = null): QueryStringQuery
+    public static function queryString(string $query, string $defaultField = null): QueryStringQuery
     {
-        return new QueryStringQuery($query, $defaultField);
+        return new QueryStringQuery($query);
     }
 
-    public static function rankFeature(string $field = null, float $boost = null): RankFeatureQuery
+    public static function rankFeature(string $field): RankFeatureQuery
     {
-        return new RankFeatureQuery($field, $boost);
+        return new RankFeatureQuery($field);
     }
 }

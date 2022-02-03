@@ -13,7 +13,7 @@ class GeoDistanceQuery implements QueryInterface
     /** @var string */
     private $field;
 
-    public function __construct(?string $distance = null, ?string $field = null, ?array $position = [])
+    public function __construct(string $distance, string $field, array $position)
     {
         $this->distance = $distance;
         $this->field = $field;

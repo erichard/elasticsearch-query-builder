@@ -16,12 +16,10 @@ class MultiMatchQuery implements QueryInterface
 
     protected $fuzziness;
 
-    public function __construct(array $fields = [], $query = null, $type = null, $fuzziness = null)
+    public function __construct(array $fields, $query)
     {
         $this->fields = $fields;
         $this->query = $query;
-        $this->type = $type;
-        $this->fuzziness = $fuzziness;
     }
 
     public function setFields(array $fields): self

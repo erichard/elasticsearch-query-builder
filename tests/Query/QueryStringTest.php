@@ -13,36 +13,12 @@ class QueryStringTest extends TestCase
     {
         $queryStringQuery = new QueryStringQuery('brown fox');
 
-        $this->assertEquals([
-            'query_string' => [
-                'query' => 'brown fox',
-            ]
-        ], $queryStringQuery->build());
-    }
-
-    public function test_it_build_the_query_with_default_field()
-    {
-        $queryStringQuery = new QueryStringQuery('brown fox', 'description');
+        $queryStringQuery->setDefaultField('test');
 
         $this->assertEquals([
             'query_string' => [
                 'query' => 'brown fox',
-                'default_field' => 'description',
-            ]
-        ], $queryStringQuery->build());
-    }
-
-    public function test_it_builds_the_query_from_setters()
-    {
-        $queryStringQuery = new QueryStringQuery();
-
-        $queryStringQuery->setQuery('brown fox')
-            ->setDefaultField('description');
-
-        $this->assertEquals([
-            'query_string' => [
-                'query' => 'brown fox',
-                'default_field' => 'description',
+                'default_field' => 'test',
             ]
         ], $queryStringQuery->build());
     }

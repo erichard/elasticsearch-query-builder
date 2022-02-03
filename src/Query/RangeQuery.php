@@ -13,7 +13,7 @@ class RangeQuery implements QueryInterface
     protected $lte;
     protected $gte;
 
-    public function __construct(?string $field = null)
+    public function __construct(string $field)
     {
         $this->field = $field;
     }

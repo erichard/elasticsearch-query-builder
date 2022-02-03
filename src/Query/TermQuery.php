@@ -12,7 +12,7 @@ class TermQuery implements QueryInterface
     /** @var mixed */
     protected $value;
 
-    public function __construct(string $field = null, $value = null)
+    public function __construct(string $field, $value)
     {
         $this->field = $field;
         $this->value = $value;

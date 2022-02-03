@@ -10,10 +10,9 @@ class QueryStringQuery implements QueryInterface
     /** @var string */
     protected $defaultField;
 
-    public function __construct(?string $query = null, string $defaultField = null)
+    public function __construct(string $query)
     {
         $this->query = $query;
-        $this->defaultField = $defaultField;
     }
 
     public function setQuery(string $query): self

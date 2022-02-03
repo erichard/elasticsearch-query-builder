@@ -13,27 +13,7 @@ class GeoShapeQueryTest extends TestCase
             'coordinates', 'polygon', [[-70, 40]]
         );
 
-        $this->assertEquals([
-            'geo_shape' => [
-                'coordinates' => [
-                    'shape' => [
-                        'type' => 'polygon',
-                        'coordinates' => [[-70, 40]]
-                    ],
-                    'relation' => 'within'
-                ]
-            ]
-        ], $query->build());
-    }
-
-    public function test_it_builds_the_query_from_setters()
-    {
-        $query = new GeoShapeQuery();
-
-        $query->setType('polygon')
-            ->setCoordinates([[-70, 40]])
-            ->setField('coordinates')
-            ->setRelation('within');
+        $query->setRelation('outside');
 
         $this->assertEquals([
             'geo_shape' => [
@@ -42,7 +22,7 @@ class GeoShapeQueryTest extends TestCase
                         'type' => 'polygon',
                         'coordinates' => [[-70, 40]]
                     ],
-                    'relation' => 'within'
+                    'relation' => 'outside'
                 ]
             ]
         ], $query->build());
