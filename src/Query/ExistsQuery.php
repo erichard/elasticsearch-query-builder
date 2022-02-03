@@ -10,7 +10,7 @@ class ExistsQuery implements QueryInterface
     /** @var string */
     protected $field;
 
-    public function __construct(string $field = null)
+    public function __construct(string $field)
     {
         $this->field = $field;
     }

@@ -6,9 +6,19 @@ use Erichard\ElasticQueryBuilder\QueryException;
 
 class PrefixQuery implements QueryInterface
 {
+    /** @var string */
     protected $field;
+
     protected $value;
+
+    /** @var float */
     protected $boost;
+
+    public function __construct(string $field, $value)
+    {
+        $this->field = $field;
+        $this->value = $value;
+    }
 
     public function setField(string $field)
     {

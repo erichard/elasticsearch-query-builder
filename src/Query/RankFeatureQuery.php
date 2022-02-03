@@ -12,10 +12,23 @@ class RankFeatureQuery implements QueryInterface
     /** @var float */
     protected $boost;
 
-    public function __construct(string $field, float $boost = null)
+    public function __construct(string $field)
     {
         $this->field = $field;
+    }
+
+    public function setField(string $field): self
+    {
+        $this->field = $field;
+
+        return $this;
+    }
+
+    public function setBoost(float $boost): self
+    {
         $this->boost = $boost;
+
+        return $this;
     }
 
     public function build(): array

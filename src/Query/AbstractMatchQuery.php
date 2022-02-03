@@ -13,7 +13,7 @@ abstract class AbstractMatchQuery implements QueryInterface
     /** @var string */
     protected $analyzer;
 
-    public function __construct(string $field, string $query)
+    public function __construct(string $field, $query)
     {
         $this->field = $field;
         $this->query = $query;

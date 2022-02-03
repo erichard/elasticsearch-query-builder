@@ -6,33 +6,44 @@ use Erichard\ElasticQueryBuilder\QueryException;
 
 class MultiMatchQuery implements QueryInterface
 {
+    /** @var array|string[] */
     protected $fields;
+
     protected $query;
+
+    /** @var string */
     protected $type;
+
     protected $fuzziness;
 
-    public function setFields(array $fields)
+    public function __construct(array $fields, $query)
+    {
+        $this->fields = $fields;
+        $this->query = $query;
+    }
+
+    public function setFields(array $fields): self
     {
         $this->fields = $fields;
 
         return $this;
     }
 
-    public function setQuery(string $query)
+    public function setQuery(string $query): self
     {
         $this->query = $query;
 
         return $this;
     }
 
-    public function setType(string $type)
+    public function setType(string $type): self
     {
         $this->type = $type;
 
         return $this;
     }
 
-    public function setFuzziness(string $fuzziness)
+    public function setFuzziness(string $fuzziness): self
     {
         $this->fuzziness = $fuzziness;
 

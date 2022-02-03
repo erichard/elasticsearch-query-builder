@@ -4,19 +4,19 @@ namespace Erichard\ElasticQueryBuilder\Query;
 
 class Query
 {
-    public static function terms(string $field = null, array $values = []): TermsQuery
+    public static function terms(string $field, array $values): TermsQuery
     {
         return new TermsQuery($field, $values);
     }
 
-    public static function term(string $field = null, $value = null): TermQuery
+    public static function term(string $field, $value): TermQuery
     {
         return new TermQuery($field, $value);
     }
 
-    public static function wildcard(): WildcardQuery
+    public static function wildcard(string $field, $value): WildcardQuery
     {
-        return new WildcardQuery();
+        return new WildcardQuery($field, $value);
     }
 
     public static function bool(): BoolQuery
@@ -24,53 +24,58 @@ class Query
         return new BoolQuery();
     }
 
-    public static function range(): RangeQuery
+    public static function range(string $field): RangeQuery
     {
-        return new RangeQuery();
+        return new RangeQuery($field);
     }
 
-    public static function nested(): NestedQuery
+    public static function nested(string $field, QueryInterface $query): NestedQuery
     {
-        return new NestedQuery();
+        return new NestedQuery($field, $query);
     }
 
-    public static function match(): MatchQuery
+    public static function match(string $field, $query): MatchQuery
     {
-        return new MatchQuery();
+        return new MatchQuery($field, $query);
     }
 
-    public static function matchPhrase(): MatchPhraseQuery
+    public static function matchPhrase(string $field, $query): MatchPhraseQuery
     {
-        return new MatchPhraseQuery();
+        return new MatchPhraseQuery($field, $query);
     }
 
-    public static function matchPhrasePrefix(): MatchPhrasePrefixQuery
+    public static function matchPhrasePrefix(string $field, $query): MatchPhrasePrefixQuery
     {
-        return new MatchPhrasePrefixQuery();
+        return new MatchPhrasePrefixQuery($field, $query);
     }
 
-    public static function multiMatch(): MultiMatchQuery
+    public static function multiMatch(array $fields, $query): MultiMatchQuery
     {
-        return new MultiMatchQuery();
+        return new MultiMatchQuery($fields, $query);
     }
 
-    public static function geoDistance(): GeoDistanceQuery
+    public static function geoDistance(string $field, string $distance, array $position): GeoDistanceQuery
     {
-        return new GeoDistanceQuery();
+        return new GeoDistanceQuery($distance, $field, $position);
     }
 
-    public static function prefix(): PrefixQuery
+    public static function geoShape(string $field, string $type, array $coordinates): GeoShapeQuery
     {
-        return new PrefixQuery();
+        return new GeoShapeQuery($field, $type, $coordinates);
+    }
+
+    public static function prefix(string $field, $value): PrefixQuery
+    {
+        return new PrefixQuery($field, $value);
     }
 
     public static function queryString(string $query, string $defaultField = null): QueryStringQuery
     {
-        return new QueryStringQuery($query, $defaultField);
+        return new QueryStringQuery($query);
     }
 
-    public static function rankFeature(string $field, float $boost = null): RankFeatureQuery
+    public static function rankFeature(string $field): RankFeatureQuery
     {
-        return new RankFeatureQuery($field, $boost);
+        return new RankFeatureQuery($field);
     }
 }

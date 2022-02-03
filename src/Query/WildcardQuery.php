@@ -6,24 +6,32 @@ use Erichard\ElasticQueryBuilder\QueryException;
 
 class WildcardQuery implements QueryInterface
 {
+    /** @var string */
     protected $field;
+
     protected $value;
 
-    public function setField(string $field)
+    public function __construct(string $field, $value)
+    {
+        $this->field = $field;
+        $this->value = $value;
+    }
+
+    public function setField(string $field): self
     {
         $this->field = $field;
 
         return $this;
     }
 
-    public function setValue($value)
+    public function setValue($value): self
     {
         $this->value = $value;
 
         return $this;
     }
 
-    public static function escapeWildcards($string)
+    public static function escapeWildcards($string): string
     {
         $escapeChars = ['*', '?'];
         foreach ($escapeChars as $escapeChar) {
