@@ -2,8 +2,6 @@
 
 namespace Tests\Erichard\ElasticQueryBuilder\Query;
 
-use Erichard\ElasticQueryBuilder\QueryException;
-use Erichard\ElasticQueryBuilder\Query\Query;
 use Erichard\ElasticQueryBuilder\Query\RankFeatureQuery;
 use PHPUnit\Framework\TestCase;
 

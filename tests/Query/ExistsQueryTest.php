@@ -3,7 +3,6 @@
 namespace Tests\Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\Query\ExistsQuery;
-use Erichard\ElasticQueryBuilder\QueryException;
 use PHPUnit\Framework\TestCase;
 
 class ExistsQueryTest extends TestCase

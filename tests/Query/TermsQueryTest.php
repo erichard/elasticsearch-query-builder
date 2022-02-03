@@ -2,8 +2,6 @@
 
 namespace Tests\Erichard\ElasticQueryBuilder\Query;
 
-use Erichard\ElasticQueryBuilder\QueryException;
-use Erichard\ElasticQueryBuilder\Query\GeoDistanceQuery;
 use Erichard\ElasticQueryBuilder\Query\TermsQuery;
 use PHPUnit\Framework\TestCase;
 
