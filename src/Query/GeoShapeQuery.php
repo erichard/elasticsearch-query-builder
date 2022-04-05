@@ -1,28 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Query;
 
-use Erichard\ElasticQueryBuilder\Query\QueryInterface;
+use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
 
 class GeoShapeQuery implements QueryInterface
 {
-    /** @var string */
-    private $type;
+    private string $relation = 'within';
 
-    /** @var array|int[]|float[] */
-    private $coordinates;
-
-    /** @var string */
-    private $field;
-
-    /** @var string */
-    private $relation = 'within';
-
-    public function __construct(string $field, string $type, array $coordinates)
-    {
-        $this->field = $field;
-        $this->type = $type;
-        $this->coordinates = $coordinates;
+    /**
+     * @param mixed[]|float[]|int[] $coordinates
+     */
+    public function __construct(
+        private string $field,
+        private string $type,
+        private array $coordinates
+    ) {
     }
 
     public function setType(string $type): self
@@ -60,11 +55,11 @@ class GeoShapeQuery implements QueryInterface
                 $this->field => [
                     'shape' => [
                         'type' => $this->type,
-                        'coordinates' => $this->coordinates
+                        'coordinates' => $this->coordinates,
                     ],
-                    'relation' => $this->relation
-                ]
-            ]
+                    'relation' => $this->relation,
+                ],
+            ],
         ];
     }
 }

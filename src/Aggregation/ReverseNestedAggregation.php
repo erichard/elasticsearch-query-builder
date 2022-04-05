@@ -1,35 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Aggregation;
 
-class ReverseNestedAggregation extends Aggregation
+class ReverseNestedAggregation extends NestedAggregation
 {
-    private $aggregation;
-    private $path;
-
-    public function setPath(string $path)
+    protected function getType(): string
     {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    public function setAggregation(Aggregation $aggregation)
-    {
-        $this->aggregation = $aggregation;
-
-        return $this;
-    }
-
-    public function build(): array
-    {
-        return [
-            'reverse_nested' => [
-                'path' => $this->path,
-            ],
-            'aggs' => [
-                $this->aggregation->getName() => $this->aggregation->build(),
-            ],
-        ];
+        return 'reverse_nested';
     }
 }

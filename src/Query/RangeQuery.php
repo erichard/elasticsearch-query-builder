@@ -1,52 +1,49 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Query;
 
+use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
+use Erichard\ElasticQueryBuilder\Features\HasField;
 use Erichard\ElasticQueryBuilder\QueryException;
 
 class RangeQuery implements QueryInterface
 {
-    /** @var string */
-    protected $field;
-    protected $lt;
-    protected $gt;
-    protected $lte;
-    protected $gte;
+    use HasField;
 
-    public function __construct(string $field)
-    {
+    public function __construct(
+        string $field,
+        protected int|float|string|null $lt = null,
+        protected int|float|string|null $gt = null,
+        protected int|float|string|null $lte = null,
+        protected int|float|string|null $gte = null,
+    ) {
         $this->field = $field;
     }
 
-    public function setField(string $field)
-    {
-        $this->field = $field;
-
-        return $this;
-    }
-
-    public function gt($value)
+    public function gt(int|float|string|null $value): self
     {
         $this->gt = $value;
 
         return $this;
     }
 
-    public function lt($value)
+    public function lt(int|float|string|null $value): self
     {
         $this->lt = $value;
 
         return $this;
     }
 
-    public function gte($value)
+    public function gte(int|float|string|null $value): self
     {
         $this->gte = $value;
 
         return $this;
     }
 
-    public function lte($value)
+    public function lte(int|float|string|null $value): self
     {
         $this->lte = $value;
 
@@ -57,21 +54,24 @@ class RangeQuery implements QueryInterface
     {
         $query = [];
 
-        if (null !== $this->gt) {
+        if ($this->gt !== null) {
             $query['gt'] = $this->gt;
         }
-        if (null !== $this->lt) {
+
+        if ($this->lt !== null) {
             $query['lt'] = $this->lt;
         }
-        if (null !== $this->gte) {
+
+        if ($this->gte !== null) {
             $query['gte'] = $this->gte;
         }
-        if (null !== $this->lte) {
+
+        if ($this->lte !== null) {
             $query['lte'] = $this->lte;
         }
 
         if (empty($query)) {
-            throw new QueryException('Empty Query');
+            throw new QueryException('Empty RangeQuery');
         }
 
         return [

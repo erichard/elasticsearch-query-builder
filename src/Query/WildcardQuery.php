@@ -1,41 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Query;
 
-use Erichard\ElasticQueryBuilder\QueryException;
+use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
+use Erichard\ElasticQueryBuilder\Features\HasField;
 
 class WildcardQuery implements QueryInterface
 {
-    /** @var string */
-    protected $field;
+    use HasField;
 
-    protected $value;
-
-    public function __construct(string $field, $value)
-    {
+    public function __construct(
+        string $field,
+        protected string $value
+    ) {
         $this->field = $field;
-        $this->value = $value;
     }
 
-    public function setField(string $field): self
-    {
-        $this->field = $field;
-
-        return $this;
-    }
-
-    public function setValue($value): self
+    public function setValue(string $value): self
     {
         $this->value = $value;
 
         return $this;
     }
 
-    public static function escapeWildcards($string): string
+    public static function escapeWildcards(string $string): string
     {
         $escapeChars = ['*', '?'];
         foreach ($escapeChars as $escapeChar) {
-            $string = str_replace($escapeChar, '\\'.$escapeChar, $string);
+            $string = str_replace($escapeChar, '\\' . $escapeChar, $string);
         }
 
         return $string;
@@ -43,13 +37,6 @@ class WildcardQuery implements QueryInterface
 
     public function build(): array
     {
-        if (null === $this->field) {
-            throw new QueryException('You need to call setField() on'.__CLASS__);
-        }
-        if (null === $this->value) {
-            throw new QueryException('You need to call setValue() on'.__CLASS__);
-        }
-
         return [
             'wildcard' => [
                 $this->field => $this->value,

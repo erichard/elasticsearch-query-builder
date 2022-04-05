@@ -1,31 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Query;
 
-use Erichard\ElasticQueryBuilder\QueryException;
+use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
+use Erichard\ElasticQueryBuilder\Features\HasField;
 
+/**
+ * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html
+ */
 class TermQuery implements QueryInterface
 {
-    /** @var string */
-    protected $field;
+    use HasField;
 
-    /** @var mixed */
-    protected $value;
-
-    public function __construct(string $field, $value)
-    {
+    public function __construct(
+        string $field,
+        protected string|int|float|bool $value
+    ) {
         $this->field = $field;
-        $this->value = $value;
     }
 
-    public function setField(string $field)
-    {
-        $this->field = $field;
-
-        return $this;
-    }
-
-    public function setValue($value)
+    public function setValue(string|int|float|bool $value): self
     {
         $this->value = $value;
 
@@ -34,13 +30,6 @@ class TermQuery implements QueryInterface
 
     public function build(): array
     {
-        if (null === $this->field) {
-            throw new QueryException('You need to call setField() on'.__CLASS__);
-        }
-        if (null === $this->value) {
-            throw new QueryException('You need to call setValue() on'.__CLASS__);
-        }
-
         return [
             'term' => [
                 $this->field => $this->value,

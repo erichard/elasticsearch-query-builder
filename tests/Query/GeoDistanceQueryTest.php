@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\Query\GeoDistanceQuery;
@@ -7,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class GeoDistanceQueryTest extends TestCase
 {
-    public function test_it_build_the_query()
+    public function testItBuildTheQuery(): void
     {
         $query = new GeoDistanceQuery('200km', 'geolocation', [40, -70]);
 

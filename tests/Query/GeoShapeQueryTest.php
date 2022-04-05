@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\Query\GeoShapeQuery;
@@ -7,11 +9,9 @@ use PHPUnit\Framework\TestCase;
 
 class GeoShapeQueryTest extends TestCase
 {
-    public function test_it_builds_the_query()
+    public function testItBuildsTheQuery(): void
     {
-        $query = new GeoShapeQuery(
-            'coordinates', 'polygon', [[-70, 40]]
-        );
+        $query = new GeoShapeQuery('coordinates', 'polygon', [[-70, 40]]);
 
         $query->setRelation('outside');
 
@@ -20,11 +20,11 @@ class GeoShapeQueryTest extends TestCase
                 'coordinates' => [
                     'shape' => [
                         'type' => 'polygon',
-                        'coordinates' => [[-70, 40]]
+                        'coordinates' => [[-70, 40]],
                     ],
-                    'relation' => 'outside'
-                ]
-            ]
+                    'relation' => 'outside',
+                ],
+            ],
         ], $query->build());
     }
 }

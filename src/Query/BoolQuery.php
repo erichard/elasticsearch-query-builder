@@ -1,25 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Query;
 
+use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
 use Erichard\ElasticQueryBuilder\QueryException;
 
 class BoolQuery implements QueryInterface
 {
-    /** @var array|Query[] */
-    private $must = [];
-
-    /** @var array|Query[] */
-    private $mustNot = [];
-
-    /** @var array|Query[] */
-    private $should = [];
-
-    /** @var array|Query[] */
-    private $filter = [];
+    /**
+     * @param array<QueryInterface> $must
+     * @param array<QueryInterface> $mustNot
+     * @param array<QueryInterface> $should
+     * @param array<QueryInterface> $filter
+     */
+    public function __construct(
+        private array $must = [],
+        private array $mustNot = [],
+        private array $should = [],
+        private array $filter = [],
+    ) {
+    }
 
     public function addMust(QueryInterface $query): self
     {
+        if ($query === $this) {
+            throw new QueryException('You are trying to add self to a bool query');
+        }
+
         $this->must[] = $query;
 
         return $this;
@@ -27,6 +36,10 @@ class BoolQuery implements QueryInterface
 
     public function addMustNot(QueryInterface $query): self
     {
+        if ($query === $this) {
+            throw new QueryException('You are trying to add self to a bool query');
+        }
+
         $this->mustNot[] = $query;
 
         return $this;
@@ -34,6 +47,10 @@ class BoolQuery implements QueryInterface
 
     public function addShould(QueryInterface $query): self
     {
+        if ($query === $this) {
+            throw new QueryException('You are trying to add self to a bool query');
+        }
+
         $this->should[] = $query;
 
         return $this;
@@ -41,6 +58,10 @@ class BoolQuery implements QueryInterface
 
     public function addFilter(QueryInterface $query): self
     {
+        if ($query === $this) {
+            throw new QueryException('You are trying to add self to a bool query');
+        }
+
         $this->filter[] = $query;
 
         return $this;
@@ -51,48 +72,45 @@ class BoolQuery implements QueryInterface
         return empty($this->must)
             && empty($this->mustNot)
             && empty($this->should)
-            && empty($this->filter)
-        ;
+            && empty($this->filter);
     }
 
     public function build(): array
     {
         $query = [];
 
-        if (!empty($this->must)) {
-            $query['must'] = [];
-            foreach ($this->must as $f) {
-                $query['must'][] = $f->build();
-            }
-        }
+        $this
+            ->buildQueries($query, 'should', $this->should)
+            ->buildQueries($query, 'filter', $this->filter)
+            ->buildQueries($query, 'must_not', $this->mustNot)
+            ->buildQueries($query, 'must', $this->must);
 
-        if (!empty($this->mustNot)) {
-            $query['must_not'] = [];
-            foreach ($this->mustNot as $f) {
-                $query['must_not'][] = $f->build();
-            }
-        }
-
-        if (!empty($this->filter)) {
-            $query['filter'] = [];
-            foreach ($this->filter as $f) {
-                $query['filter'][] = $f->build();
-            }
-        }
-
-        if (!empty($this->should)) {
-            $query['should'] = [];
-            foreach ($this->should as $f) {
-                $query['should'][] = $f->build();
-            }
-        }
-
-        if (empty($query)) {
-            throw new QueryException('Empty Query');
+        if ((is_countable($query) ? count($query) : 0) === 0) {
+            throw new QueryException('Empty BoolQuery');
         }
 
         return [
             'bool' => $query,
         ];
+    }
+
+    /**
+     * @param array<QueryInterface> $queries
+     *
+     * @return $this
+     */
+    protected function buildQueries(array &$query, string $name, array $queries): self
+    {
+        if ($queries === []) {
+            return $this;
+        }
+
+        $query[$name] = [];
+
+        foreach ($queries as $filter) {
+            $query[$name][] = $filter->build();
+        }
+
+        return $this;
     }
 }

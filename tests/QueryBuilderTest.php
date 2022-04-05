@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Erichard\ElasticQueryBuilder;
 
 use Erichard\ElasticQueryBuilder\QueryBuilder;
@@ -7,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class QueryBuilderTest extends TestCase
 {
-    public function test_it_disable_the_source()
+    public function testItDisableTheSource(): void
     {
         $queryBuilder = new QueryBuilder();
 
@@ -18,7 +20,7 @@ class QueryBuilderTest extends TestCase
         $this->assertFalse($query['_source']);
     }
 
-    public function test_it_set_the_source()
+    public function testItSetTheSource(): void
     {
         $queryBuilder = new QueryBuilder();
 
@@ -29,7 +31,7 @@ class QueryBuilderTest extends TestCase
         $this->assertEquals('obj.*', $query['_source']);
     }
 
-    public function test_it_set_the_index()
+    public function testItSetTheIndex(): void
     {
         $queryBuilder = new QueryBuilder();
 
@@ -40,7 +42,7 @@ class QueryBuilderTest extends TestCase
         $this->assertEquals('index1', $query['index']);
     }
 
-    public function test_it_set_the_size()
+    public function testItSetTheSize(): void
     {
         $queryBuilder = new QueryBuilder();
 
@@ -51,7 +53,7 @@ class QueryBuilderTest extends TestCase
         $this->assertEquals(50, $query['size']);
     }
 
-    public function test_it_set_the_from()
+    public function testItSetTheFrom(): void
     {
         $queryBuilder = new QueryBuilder();
 
@@ -62,18 +64,27 @@ class QueryBuilderTest extends TestCase
         $this->assertEquals(50, $query['from']);
     }
 
-    public function test_it_allow_to_sort()
+    public function testItAllowToSort(): void
     {
         $queryBuilder = new QueryBuilder();
 
-        $queryBuilder->addSort('field', ['order' => 'desc']);
-        $queryBuilder->addSort('field2', ['order' => 'asc']);
+        $queryBuilder->addSort('field', [
+            'order' => 'desc',
+        ]);
+        $queryBuilder->addSort('field2', [
+            'order' => 'asc',
+        ]);
 
         $query = $queryBuilder->build();
 
         $this->assertEquals([
-            'field' => ['order' => 'desc'],
-            'field2' => ['order' => 'asc'],
+            'field' => [
+                'order' => 'desc',
+            ],
+            'field2' => [
+                'order' => 'asc',
+
+            ],
         ], $query['body']['sort']);
     }
 }

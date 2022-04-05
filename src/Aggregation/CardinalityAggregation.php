@@ -1,29 +1,51 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Aggregation;
 
+use Erichard\ElasticQueryBuilder\Options\Field;
+use Erichard\ElasticQueryBuilder\Options\SourceScript;
+
+/**
+ * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-metrics-cardinality-aggregation.html
+ */
 class CardinalityAggregation extends MetricAggregation
 {
-	private $precisionThreshold;
+    public function __construct(
+        string $nameAndField,
+        Field|SourceScript|string|null $fieldOrSource = null,
+        array $aggregations = [],
+        private ?int $precisionThreshold = null,
+    ) {
+        parent::__construct($nameAndField, $fieldOrSource, $aggregations);
+    }
 
-	public function setPrecisionThreshold($precisionThreshold)
-	{
-		$this->precisionThreshold = $precisionThreshold;
-	}
+    public function setPrecisionThreshold(?int $precisionThreshold): self
+    {
+        $this->precisionThreshold = $precisionThreshold;
 
-    public function getMetricName(): string
+        return $this;
+    }
+
+    public function getPrecisionThreshold(): ?int
+    {
+        return $this->precisionThreshold;
+    }
+
+    protected function getType(): string
     {
         return 'cardinality';
     }
 
-    public function build(): array
+    protected function buildAggregation(): array
     {
-    	$build = parent::build();
+        $build = parent::buildAggregation();
 
-    	if (null !== $this->precisionThreshold) {
-    		$build['cardinality']['precision_threshold'] = $this->precisionThreshold;
-    	}
+        if ($this->precisionThreshold !== null) {
+            $build['precision_threshold'] = $this->precisionThreshold;
+        }
 
-    	return $build;
+        return $build;
     }
 }

@@ -1,23 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Query;
+
+use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
+use Erichard\ElasticQueryBuilder\Features\HasField;
 
 class GeoDistanceQuery implements QueryInterface
 {
-    /** @var string */
-    private $distance;
+    use HasField;
 
-    /** @var array|float[]|int[] */
-    private $position;
-
-    /** @var string */
-    private $field;
-
-    public function __construct(string $distance, string $field, array $position)
-    {
-        $this->distance = $distance;
+    /**
+     * @param float[]|int[] $position
+     */
+    public function __construct(
+        private string $distance,
+        string $field,
+        private array $position
+    ) {
         $this->field = $field;
-        $this->position = $position;
     }
 
     public function setDistance(string $distance): self
@@ -30,13 +32,6 @@ class GeoDistanceQuery implements QueryInterface
     public function setPosition(array $position): self
     {
         $this->position = $position;
-
-        return $this;
-    }
-
-    public function setField(string $field)
-    {
-        $this->field = $field;
 
         return $this;
     }

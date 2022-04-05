@@ -1,42 +1,57 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Aggregation;
 
+use Erichard\ElasticQueryBuilder\Constants\SortDirections;
+use Erichard\ElasticQueryBuilder\Options\Field;
+use Erichard\ElasticQueryBuilder\Options\InlineScript;
 use Erichard\ElasticQueryBuilder\QueryException;
 
-class TermsAggregation extends Aggregation
+/**
+ * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-terms-aggregation.html
+ */
+class TermsAggregation extends AbstractAggregation
 {
-    private $aggregation;
-    private $field;
-    private $orderField;
-    private $orderValue;
-    private $include;
-    private $exclude;
-    private $script;
-    private $size = 10;
+    private ?InlineScript $script = null;
 
-    public function setField(string $field)
-    {
-        $this->field = $field;
+    private ?Field $field = null;
 
-        return $this;
+    /**
+     * @param string|Field|InlineScript $fieldOrSource string === field
+     */
+    public function __construct(
+        string $name,
+        string|Field|InlineScript $fieldOrSource,
+        array $aggregations = [],
+        private string|null $orderField = null,
+        private string $orderValue = SortDirections::ASC,
+        private array|string|null $include = null,
+        private array|string|null $exclude = null,
+        private int $size = 10,
+    ) {
+        parent::__construct($name, $aggregations);
+
+        if (is_string($fieldOrSource)) {
+            $this->field = new Field($fieldOrSource);
+        } elseif ($fieldOrSource instanceof Field) {
+            $this->field = $fieldOrSource;
+        } elseif ($fieldOrSource instanceof InlineScript) {
+            $this->script = $fieldOrSource;
+        } else {
+            throw new QueryException('Invalid field or source argument in metric aggregation');
+        }
     }
 
-    public function setSize(int $size)
+    public function setSize(int $size): self
     {
         $this->size = $size;
 
         return $this;
     }
 
-    public function setScript(string $script)
-    {
-        $this->script = $script;
-
-        return $this;
-    }
-
-    public function setOrder(string $orderField, string $orderValue = 'ASC')
+    public function setOrder(string|null $orderField, string $orderValue = SortDirections::ASC): self
     {
         $this->orderField = $orderField;
         $this->orderValue = $orderValue;
@@ -44,67 +59,52 @@ class TermsAggregation extends Aggregation
         return $this;
     }
 
-    public function setInclude($include)
+    public function setInclude(array|string|null $include): self
     {
         $this->include = $include;
 
         return $this;
     }
 
-    public function setExclude($exclude)
+    public function setExclude(array|string|null $exclude): self
     {
         $this->exclude = $exclude;
 
         return $this;
     }
 
-    public function setAggregation(Aggregation $aggregation)
+    protected function buildAggregation(): array
     {
-        $this->aggregation = $aggregation;
-
-        return $this;
-    }
-
-    public function build(): array
-    {
-        if (null !== $this->script) {
-            $term = [
-                'script' => [
-                    'inline' => $this->script,
-                    'lang' => 'painless',
-                ],
+        $build = [];
+        if ($this->script !== null) {
+            $build = [
+                'script' => $this->script->build(),
             ];
-        } else {
-            $term = [
-                'field' => $this->field,
+        } elseif ($this->field !== null) {
+            $build = $this->field->build() + [
                 'size' => $this->size,
             ];
         }
 
-        $query = [
-            'terms' => $term,
-        ];
-
-        if (null !== $this->orderField) {
-            $query['terms']['order'] = [
+        if ($this->orderField !== null) {
+            $build['order'] = [
                 $this->orderField => $this->orderValue,
             ];
         }
 
-        if (null !== $this->include) {
-            $query['terms']['include'] = $this->include;
+        if ($this->include !== null) {
+            $build['include'] = $this->include;
         }
 
-        if (null !== $this->exclude) {
-            $query['terms']['exclude'] = $this->exclude;
+        if ($this->exclude !== null) {
+            $build['exclude'] = $this->exclude;
         }
 
-        if (null !== $this->aggregation) {
-            $query['aggs'] = [
-                $this->aggregation->getName() => $this->aggregation->build(),
-            ];
-        }
+        return $build;
+    }
 
-        return $query;
+    protected function getType(): string
+    {
+        return 'terms';
     }
 }
