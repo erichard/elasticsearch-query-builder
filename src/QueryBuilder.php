@@ -1,38 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder;
 
-use Erichard\ElasticQueryBuilder\Aggregation\Aggregation;
-use Erichard\ElasticQueryBuilder\Query\Query;
-use Erichard\ElasticQueryBuilder\Query\QueryInterface;
+use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
+use Erichard\ElasticQueryBuilder\Features\HasAggregations;
+use Erichard\ElasticQueryBuilder\Features\HasCollapse;
+use Erichard\ElasticQueryBuilder\Features\HasSorting;
 
 class QueryBuilder
 {
-    /** @var string|null */
-    private $index;
+    use HasCollapse;
+    use HasSorting;
+    use HasAggregations;
 
-    /** @var mixed|null */
-    private $source;
+    private ?string $index = null;
 
-    /** @var int|null */
-    private $from;
+    private array|bool|string|null $source = null;
 
-    /** @var int|null */
-    private $size;
+    private ?int $from = null;
 
-    /** @var array */
-    private $aggregations = [];
+    private ?int $size = null;
 
-    /** @var Query|null */
-    private $query;
+    private ?QueryInterface $query = null;
 
-    /** @var Query */
-    private $postFilter;
+    private ?QueryInterface $postFilter = null;
 
-    /** @var array */
-    private $sort = [];
-
-    public function setSource($source): self
+    public function setSource(array|bool|string|null $source): self
     {
         $this->source = $source;
 
@@ -60,20 +55,6 @@ class QueryBuilder
         return $this;
     }
 
-    public function addSort(string $field, array $config): self
-    {
-        $this->sort[$field] = $config;
-
-        return $this;
-    }
-
-    public function addAggregation(Aggregation $aggregation): self
-    {
-        $this->aggregations[] = $aggregation;
-
-        return $this;
-    }
-
     public function setQuery(QueryInterface $query): self
     {
         $this->query = $query;
@@ -94,44 +75,59 @@ class QueryBuilder
             'body' => [],
         ];
 
-        if (null !== $this->index) {
+        if ($this->index !== null) {
             $query['index'] = $this->index;
         }
 
-        if (null !== $this->from) {
+        if ($this->from !== null) {
             $query['from'] = $this->from;
         }
 
-        if (null !== $this->size) {
+        if ($this->size !== null) {
             $query['size'] = $this->size;
         }
 
-        if (null !== $this->source) {
+        if ($this->source !== null) {
             $query['_source'] = $this->source;
         }
 
-        if (!empty($this->aggregations)) {
-            $query['body']['aggs'] = [];
-            foreach ($this->aggregations as $aggregation) {
-                $query['body']['aggs'][$aggregation->getName()] = $aggregation->buildRecursivly();
-            }
-        }
-
-        if (null !== $this->query) {
+        if ($this->query !== null) {
             $query['body']['query'] = $this->query->build();
         }
 
-        if (null !== $this->postFilter) {
+        if ($this->postFilter !== null) {
             $query['body']['post_filter'] = $this->postFilter->build();
         }
 
-        if (!empty($this->sort)) {
-            $query['body']['sort'] = [];
-            foreach ($this->sort as $sort => $config) {
-                $query['body']['sort'][$sort] = $config;
-            }
-        }
+        $this->buildSortTo($query['body'])
+            ->buildAggregationsTo($query['body'])
+            ->buildCollapseTo($query['body']);
 
         return $query;
+    }
+
+    public function getSource(): bool|array|string|null
+    {
+        return $this->source;
+    }
+
+    public function getFrom(): ?int
+    {
+        return $this->from;
+    }
+
+    public function getSize(): ?int
+    {
+        return $this->size;
+    }
+
+    public function getQuery(): ?QueryInterface
+    {
+        return $this->query;
+    }
+
+    public function getPostFilter(): ?QueryInterface
+    {
+        return $this->postFilter;
     }
 }

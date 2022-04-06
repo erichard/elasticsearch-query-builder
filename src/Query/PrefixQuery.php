@@ -1,40 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Query;
 
-use Erichard\ElasticQueryBuilder\QueryException;
+use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
+use Erichard\ElasticQueryBuilder\Features\HasField;
 
+/**
+ * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html
+ */
 class PrefixQuery implements QueryInterface
 {
-    /** @var string */
-    protected $field;
+    use HasField;
 
-    protected $value;
-
-    /** @var float */
-    protected $boost;
-
-    public function __construct(string $field, $value)
-    {
+    public function __construct(
+        string $field,
+        protected string $value,
+        protected ?float $boost = null
+    ) {
         $this->field = $field;
-        $this->value = $value;
     }
 
-    public function setField(string $field)
-    {
-        $this->field = $field;
-
-        return $this;
-    }
-
-    public function setValue($value)
+    public function setValue(string $value): self
     {
         $this->value = $value;
 
         return $this;
     }
 
-    public function setBoost($boost)
+    public function setBoost(?float $boost): self
     {
         $this->boost = $boost;
 
@@ -43,16 +38,9 @@ class PrefixQuery implements QueryInterface
 
     public function build(): array
     {
-        if (null === $this->field) {
-            throw new QueryException('You need to call setField() on'.__CLASS__);
-        }
-        if (null === $this->value) {
-            throw new QueryException('You need to call setValue() on'.__CLASS__);
-        }
-
         $value = $this->value;
 
-        if (null !== $this->boost) {
+        if ($this->boost !== null) {
             $value = [
                 'value' => $this->value,
                 'boost' => $this->boost,

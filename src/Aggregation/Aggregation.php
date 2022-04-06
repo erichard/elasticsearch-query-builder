@@ -1,96 +1,112 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Aggregation;
 
-abstract class Aggregation
+use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
+use Erichard\ElasticQueryBuilder\Options\Field;
+use Erichard\ElasticQueryBuilder\Options\InlineScript;
+use Erichard\ElasticQueryBuilder\Options\SourceScript;
+
+class Aggregation
 {
-    /** @var string */
-    private $name;
-
-    /** @var array */
-    private $aggregations = [];
-
-    abstract public function build(): array;
-
-    public function buildRecursivly(): array
-    {
-        $build = $this->build();
-
-        if (!empty($this->aggregations)) {
-            $build['aggs'] = [];
-
-            foreach($this->aggregations as $aggregation) {
-                $build['aggs'][$aggregation->getName()] = $aggregation->buildRecursivly();
-            }
-        }
-
-        return $build;
+    /**
+     * @param array<AbstractAggregation> $aggregations
+     */
+    public static function terms(
+        string $name,
+        string|Field|InlineScript $fieldOrSource,
+        array $aggregations = []
+    ): TermsAggregation {
+        return new TermsAggregation($name, $fieldOrSource, $aggregations);
     }
 
-    public function __construct(string $name)
-    {
-        $this->name = $name;
+    /**
+     * @param array<AbstractAggregation> $aggregations
+     */
+    public static function dateHistogram(
+        string $nameAndField,
+        string $calendarInterval,
+        ?string $field = null,
+        array $aggregations = []
+    ): DateHistogramAggregation {
+        return new DateHistogramAggregation($nameAndField, $calendarInterval, $field, $aggregations);
     }
 
-    public function addAggregation(Aggregation $aggregation)
+    /**
+     * @param array<AbstractAggregation> $aggregations
+     */
+    public static function nested(string $name, string $path, array $aggregations = []): NestedAggregation
     {
-        $this->aggregations[$aggregation->getName()] = $aggregation;
-
-        return $this;
+        return new NestedAggregation($name, $path, $aggregations);
     }
 
-    public function getName(): string
+    /**
+     * @param array<AbstractAggregation> $aggregations
+     */
+    public static function reverseNested(string $name, string $path, array $aggregations = []): ReverseNestedAggregation
     {
-        return $this->name;
+        return new ReverseNestedAggregation($name, $path, $aggregations);
     }
 
-    public static function terms(string $name): TermsAggregation
+    /**
+     * @param array<AbstractAggregation> $aggregations
+     */
+    public static function filter(string $name, QueryInterface $query, array $aggregations = []): FilterAggregation
     {
-        return new TermsAggregation($name);
+        return new FilterAggregation($name, $query, $aggregations);
     }
 
-    public static function dateHistogram(string $name): DateHistogramAggregation
-    {
-        return new DateHistogramAggregation($name);
+    /**
+     * @param array<AbstractAggregation> $aggregations
+     */
+    public static function cardinality(
+        string $nameAndField,
+        string|SourceScript|Field|null $fieldOrSource = null,
+        array $aggregations = []
+    ): CardinalityAggregation {
+        return new CardinalityAggregation($nameAndField, $fieldOrSource, $aggregations);
     }
 
-    public static function nested(string $name): NestedAggregation
-    {
-        return new NestedAggregation($name);
+    /**
+     * @param array<AbstractAggregation> $aggregations
+     */
+    public static function max(
+        string $nameAndField,
+        string|SourceScript|Field|null $fieldOrSource = null,
+        array $aggregations = []
+    ): MaxAggregation {
+        return new MaxAggregation($nameAndField, $fieldOrSource, $aggregations);
     }
 
-    public static function reverseNested(string $name): ReverseNestedAggregation
-    {
-        return new ReverseNestedAggregation($name);
+    /**
+     * @param array<AbstractAggregation> $aggregations
+     */
+    public static function min(
+        string $nameAndField,
+        string|SourceScript|Field|null $fieldOrSource = null,
+        array $aggregations = []
+    ): MinAggregation {
+        return new MinAggregation($nameAndField, $fieldOrSource, $aggregations);
     }
 
-    public static function filter(string $name): FilterAggregation
-    {
-        return new FilterAggregation($name);
+    /**
+     * @param array<AbstractAggregation> $aggregations
+     */
+    public static function sum(
+        string $nameAndField,
+        string|SourceScript|Field|null $fieldOrSource = null,
+        array $aggregations = []
+    ): SumAggregation {
+        return new SumAggregation($nameAndField, $fieldOrSource, $aggregations);
     }
 
-    public static function cardinality(string $name): CardinalityAggregation
+    /**
+     * @param array<AbstractAggregation> $aggregations
+     */
+    public static function topHits(string $name, array $aggregations = []): TopHitsAggregation
     {
-        return new CardinalityAggregation($name);
-    } 
-
-    public static function max(string $name): MaxAggregation
-    {
-        return new MaxAggregation($name);
-    }
-
-    public static function min(string $name): MinAggregation
-    {
-        return new MinAggregation($name);
-    }
-
-    public static function sum(string $name): SumAggregation
-    {
-        return new SumAggregation($name);
-    }
-
-    public static function topHits(string $name): TopHitsAggregation
-    {
-        return new TopHitsAggregation($name);
+        return new TopHitsAggregation($name, $aggregations);
     }
 }

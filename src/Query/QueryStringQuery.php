@@ -1,18 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Query;
+
+use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
 
 class QueryStringQuery implements QueryInterface
 {
-    /** @var string */
-    protected $query;
-
-    /** @var string */
-    protected $defaultField;
-
-    public function __construct(string $query)
-    {
-        $this->query = $query;
+    public function __construct(
+        protected string $query,
+        protected ?string $defaultField = null
+    ) {
     }
 
     public function setQuery(string $query): self
@@ -22,7 +21,7 @@ class QueryStringQuery implements QueryInterface
         return $this;
     }
 
-    public function setDefaultField(string $defaultField): self
+    public function setDefaultField(?string $defaultField): self
     {
         $this->defaultField = $defaultField;
 
@@ -31,16 +30,16 @@ class QueryStringQuery implements QueryInterface
 
     public function build(): array
     {
-        $query = [
-            'query_string' => [
-                'query' => $this->query,
-            ],
+        $build = [
+            'query' => $this->query,
         ];
 
-        if (null !== $this->defaultField) {
-            $query['query_string']['default_field'] = $this->defaultField;
+        if ($this->defaultField !== null) {
+            $build['default_field'] = $this->defaultField;
         }
 
-        return $query;
+        return [
+            'query_string' => $build,
+        ];
     }
 }

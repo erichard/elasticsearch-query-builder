@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\Query\ExistsQuery;
@@ -7,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class ExistsQueryTest extends TestCase
 {
-    public function test_it_build_the_query_with_a_constructor()
+    public function testItBuildTheQueryWithAConstructor(): void
     {
         $query = new ExistsQuery('someFieldName');
 
@@ -17,5 +19,4 @@ class ExistsQueryTest extends TestCase
             ],
         ], $query->build());
     }
-    
 }

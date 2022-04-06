@@ -1,25 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Query;
 
-use Erichard\ElasticQueryBuilder\QueryException;
+use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
+use Erichard\ElasticQueryBuilder\Features\HasOperator;
 
 class MultiMatchQuery implements QueryInterface
 {
-    /** @var array|string[] */
-    protected $fields;
+    use HasOperator;
 
-    protected $query;
-
-    /** @var string */
-    protected $type;
-
-    protected $fuzziness;
-
-    public function __construct(array $fields, $query)
-    {
-        $this->fields = $fields;
-        $this->query = $query;
+    /**
+     * @param mixed[]|string[] $fields
+     */
+    public function __construct(
+        protected array $fields,
+        protected string $query,
+        protected ?string $type = null,
+        protected ?string $fuzziness = null,
+        ?string $operator = null
+    ) {
+        $this->operator = $operator;
     }
 
     public function setFields(array $fields): self
@@ -52,29 +54,23 @@ class MultiMatchQuery implements QueryInterface
 
     public function build(): array
     {
-        if (null === $this->fields) {
-            throw new QueryException('You need to call setFields() on'.__CLASS__);
-        }
-
-        if (null === $this->query) {
-            throw new QueryException('You need to call setQuery() on'.__CLASS__);
-        }
-
-        $query = [
-            'multi_match' => [
-                'query' => $this->query,
-                'fields' => $this->fields,
-            ],
+        $data = [
+            'query' => $this->query,
+            'fields' => $this->fields,
         ];
 
-        if (null !== $this->type) {
-            $query['multi_match']['type'] = $this->type;
+        if ($this->type !== null) {
+            $data['type'] = $this->type;
         }
 
-        if (null !== $this->fuzziness) {
-            $query['multi_match']['fuzziness'] = $this->fuzziness;
+        if ($this->fuzziness !== null) {
+            $data['fuzziness'] = $this->fuzziness;
         }
 
-        return $query;
+        $this->buildOperatorTo($data);
+
+        return [
+            'multi_match' => $data,
+        ];
     }
 }

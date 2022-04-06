@@ -1,41 +1,52 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Aggregation;
 
-class TopHitsAggregation extends Aggregation
-{
-    private $script;
-    private $size = 3;
+use Erichard\ElasticQueryBuilder\Features\HasSorting;
 
-    public function setScript(string $script)
+class TopHitsAggregation extends AbstractAggregation
+{
+    use HasSorting;
+
+    private ?string $script = null;
+
+    private int $size = 3;
+
+    public function setScript(?string $script): self
     {
         $this->script = $script;
 
         return $this;
     }
 
-    public function setSize(int $size)
+    public function setSize(int $size): self
     {
         $this->size = $size;
 
         return $this;
     }
 
-    public function build(): array
+    protected function getType(): string
     {
-        if (null !== $this->script) {
-            $term = [
-                '_source' => [
-                    'includes' => $this->script,
-                ],
-                'size' => $this->size,
+        return 'top_hits';
+    }
+
+    protected function buildAggregation(): array
+    {
+        $data = [
+            'size' => $this->size,
+        ];
+
+        if ($this->script !== null) {
+            $data['_source'] = [
+                'includes' => $this->script,
             ];
         }
 
-        $query = [
-            'top_hits' => $term,
-        ];
+        $this->buildSortTo($data);
 
-        return $query;
+        return $data;
     }
 }

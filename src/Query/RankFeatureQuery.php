@@ -1,30 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Query;
 
-use Erichard\ElasticQueryBuilder\QueryException;
+use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
+use Erichard\ElasticQueryBuilder\Features\HasField;
 
 class RankFeatureQuery implements QueryInterface
 {
-    /** @var string */
-    protected $field;
+    use HasField;
 
-    /** @var float */
-    protected $boost;
-
-    public function __construct(string $field)
-    {
+    public function __construct(
+        string $field,
+        protected ?float $boost = null
+    ) {
         $this->field = $field;
     }
 
-    public function setField(string $field): self
-    {
-        $this->field = $field;
-
-        return $this;
-    }
-
-    public function setBoost(float $boost): self
+    public function setBoost(?float $boost): self
     {
         $this->boost = $boost;
 
@@ -33,16 +27,16 @@ class RankFeatureQuery implements QueryInterface
 
     public function build(): array
     {
-        $query = [
-            'rank_feature' => [
-                'field' => $this->field,
-            ],
+        $build = [
+            'field' => $this->field,
         ];
 
-        if (null !== $this->boost) {
-            $query['rank_feature']['boost'] = $this->boost;
+        if ($this->boost !== null) {
+            $build['boost'] = $this->boost;
         }
 
-        return $query;
+        return [
+            'rank_feature' => $build,
+        ];
     }
 }

@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Erichard\ElasticQueryBuilder\Aggregation;
 
 use Erichard\ElasticQueryBuilder\Aggregation\CardinalityAggregation;
-use Erichard\ElasticQueryBuilder\QueryException;
+use Erichard\ElasticQueryBuilder\Options\SourceScript;
 use PHPUnit\Framework\TestCase;
 
 class CardinalityAggregationTest extends TestCase
 {
-    public function test_it_build_the_aggregation_using_a_field()
+    public function testItBuildTheAggregationUsingAField(): void
     {
         $query = new CardinalityAggregation('city');
-        $query->setField('city');
 
         $this->assertEquals([
             'cardinality' => [
@@ -20,7 +21,20 @@ class CardinalityAggregationTest extends TestCase
         ], $query->build());
     }
 
-    public function test_it_build_the_aggregation_using_a_script()
+    public function testItBuildTheAggregationUsingAFieldViaSet(): void
+    {
+        $query = new CardinalityAggregation('city');
+        $query->setScript('test2');
+        $query->setField('test');
+
+        $this->assertEquals([
+            'cardinality' => [
+                'field' => 'test',
+            ],
+        ], $query->build());
+    }
+
+    public function testItBuildTheAggregationUsingAScriptViaSet(): void
     {
         $query = new CardinalityAggregation('city');
         $query->setScript('doc.city.value');
@@ -34,16 +48,31 @@ class CardinalityAggregationTest extends TestCase
         ], $query->build());
     }
 
-    public function test_it_fail_building_the_aggregation_without_field()
+    public function testItBuildTheAggregationUsingAScript(): void
     {
-        $query = new CardinalityAggregation('city');
+        $query = new CardinalityAggregation('city', new SourceScript('asd'));
 
-        $this->expectException(QueryException::class);
-
-        $query->build();
+        $this->assertEquals([
+            'cardinality' => [
+                'script' => [
+                    'source' => 'asd',
+                ],
+            ],
+        ], $query->build());
     }
 
-    public function test_it_build_the_aggregation_with_missing_value()
+    public function testItBuildTheAggregationUsingAFieldAndDifferentName(): void
+    {
+        $query = new CardinalityAggregation('city', 'test');
+
+        $this->assertEquals([
+            'cardinality' => [
+                'field' => 'test',
+            ],
+        ], $query->build());
+    }
+
+    public function testItBuildTheAggregationWithMissingValue(): void
     {
         $query = new CardinalityAggregation('city');
         $query->setField('city');
@@ -57,7 +86,7 @@ class CardinalityAggregationTest extends TestCase
         ], $query->build());
     }
 
-    public function test_it_build_the_aggregation_with_a_precision_threshold()
+    public function testItBuildTheAggregationWithAPrecisionThreshold(): void
     {
         $query = new CardinalityAggregation('city');
         $query->setField('city');

@@ -1,39 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Query;
+
+use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
+use Erichard\ElasticQueryBuilder\Features\HasField;
 
 abstract class AbstractMatchQuery implements QueryInterface
 {
-    /** @var string */
-    protected $field;
+    use HasField;
 
-    /** @var string */
-    protected $query;
-
-    /** @var string */
-    protected $analyzer;
-
-    public function __construct(string $field, $query)
-    {
+    public function __construct(
+        string $field,
+        protected string $query,
+        protected ?string $analyzer = null
+    ) {
         $this->field = $field;
-        $this->query = $query;
     }
 
-    public function setField(string $field)
-    {
-        $this->field = $field;
-
-        return $this;
-    }
-
-    public function setQuery(string $query)
+    public function setQuery(string $query): self
     {
         $this->query = $query;
 
         return $this;
     }
 
-    public function setAnalyzer(string $analyzer)
+    public function setAnalyzer(?string $analyzer): self
     {
         $this->analyzer = $analyzer;
 
@@ -52,7 +45,7 @@ abstract class AbstractMatchQuery implements QueryInterface
             ],
         ];
 
-        if (null !== $this->analyzer) {
+        if ($this->analyzer !== null) {
             $query[$queryName][$this->field]['analyzer'] = $this->analyzer;
         }
 

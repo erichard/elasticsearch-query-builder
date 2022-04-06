@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\Query\RankFeatureQuery;
@@ -7,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class RankFeatureTest extends TestCase
 {
-    public function test_it_build_the_query()
+    public function testItBuildTheQuery(): void
     {
         $rankFeatureQuery = new RankFeatureQuery('rank');
 
@@ -17,7 +19,7 @@ class RankFeatureTest extends TestCase
             'rank_feature' => [
                 'field' => 'rank',
                 'boost' => 0.9,
-            ]
+            ],
         ], $rankFeatureQuery->build());
     }
 }

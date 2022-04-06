@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\Query\BoolQuery;
@@ -9,20 +11,57 @@ use PHPUnit\Framework\TestCase;
 
 class BoolQueryTest extends TestCase
 {
-    public function test_it_cannot_be_built_empty()
+    public function testItCannotBeBuiltEmpty(): void
     {
-        $boolQuery = new BoolQuery('empty_query');
+        $boolQuery = new BoolQuery();
 
         $this->expectException(QueryException::class);
 
         $boolQuery->build();
     }
 
-    public function test_it_add_a_must_clause()
+    public function testAddFilterWithSameObject(): void
     {
-        $boolQuery = new BoolQuery('must_clause');
+        $this->expectExceptionMessage('You are trying to add self to a bool query');
+        $boolQuery = new BoolQuery();
+
+        $boolQuery->addFilter($boolQuery);
+        $boolQuery->build();
+    }
+
+    public function testAddShouldWithSameObject(): void
+    {
+        $this->expectExceptionMessage('You are trying to add self to a bool query');
+        $boolQuery = new BoolQuery();
+
+        $boolQuery->addShould($boolQuery);
+        $boolQuery->build();
+    }
+
+    public function testAddMustNotWithSameObject(): void
+    {
+        $this->expectExceptionMessage('You are trying to add self to a bool query');
+        $boolQuery = new BoolQuery();
+
+        $boolQuery->addMustNot($boolQuery);
+        $boolQuery->build();
+    }
+
+    public function testAddMustWithSameObject(): void
+    {
+        $this->expectExceptionMessage('You are trying to add self to a bool query');
+        $boolQuery = new BoolQuery();
+
+        $boolQuery->addMust($boolQuery);
+        $boolQuery->build();
+    }
+
+    public function testItAddAMustClause(): void
+    {
+        $boolQuery = new BoolQuery();
 
         $boolQuery->addMust(Query::term('field', 'value'));
+
         $query = $boolQuery->build();
 
         $this->assertEquals([
@@ -38,11 +77,12 @@ class BoolQueryTest extends TestCase
         ], $query);
     }
 
-    public function test_it_add_a_must_not_clause()
+    public function testItAddAMustNotClause(): void
     {
-        $boolQuery = new BoolQuery('must_clause');
+        $boolQuery = new BoolQuery();
 
         $boolQuery->addMustNot(Query::term('field', 'value'));
+
         $query = $boolQuery->build();
 
         $this->assertEquals([
@@ -58,11 +98,12 @@ class BoolQueryTest extends TestCase
         ], $query);
     }
 
-    public function test_it_add_a_should_clause()
+    public function testItAddAShouldClause(): void
     {
-        $boolQuery = new BoolQuery('must_clause');
+        $boolQuery = new BoolQuery();
 
         $boolQuery->addShould(Query::term('field', 'value'));
+
         $query = $boolQuery->build();
 
         $this->assertEquals([
@@ -78,11 +119,12 @@ class BoolQueryTest extends TestCase
         ], $query);
     }
 
-    public function test_it_add_a_filter_clause()
+    public function testItAddAFilterClause(): void
     {
-        $boolQuery = new BoolQuery('must_clause');
+        $boolQuery = new BoolQuery();
 
         $boolQuery->addFilter(Query::term('field', 'value'));
+
         $query = $boolQuery->build();
 
         $this->assertEquals([

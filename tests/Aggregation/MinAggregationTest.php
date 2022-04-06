@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Erichard\ElasticQueryBuilder\Aggregation;
 
 use Erichard\ElasticQueryBuilder\Aggregation\MinAggregation;
-use Erichard\ElasticQueryBuilder\QueryException;
 use PHPUnit\Framework\TestCase;
 
 class MinAggregationTest extends TestCase
 {
-    public function test_it_build_the_aggregation_using_a_field()
+    public function testItBuildTheAggregationUsingAField(): void
     {
         $query = new MinAggregation('min_price');
         $query->setField('price');
@@ -20,7 +21,7 @@ class MinAggregationTest extends TestCase
         ], $query->build());
     }
 
-    public function test_it_build_the_aggregation_using_a_script()
+    public function testItBuildTheAggregationUsingAScript(): void
     {
         $query = new MinAggregation('min_price');
         $query->setScript('doc.price.value');
@@ -34,19 +35,20 @@ class MinAggregationTest extends TestCase
         ], $query->build());
     }
 
-    public function test_it_fail_building_the_aggregation_without_field()
+    public function testWithFieldName(): void
     {
         $query = new MinAggregation('min_price');
 
-        $this->expectException(QueryException::class);
-
-        $query->build();
+        $this->assertEquals([
+            'min' => [
+                'field' => 'min_price',
+            ],
+        ], $query->build());
     }
 
-    public function test_it_build_the_aggregation_with_missing_value()
+    public function testItBuildTheAggregationWithMissingValue(): void
     {
-        $query = new MinAggregation('min_price');
-        $query->setField('price');
+        $query = new MinAggregation('min_price', 'price');
         $query->setMissing(10);
 
         $this->assertEquals([

@@ -1,66 +1,87 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Aggregation;
 
+use Erichard\ElasticQueryBuilder\Options\Field;
+use Erichard\ElasticQueryBuilder\Options\SourceScript;
 use Erichard\ElasticQueryBuilder\QueryException;
 
-abstract class MetricAggregation extends Aggregation
+abstract class MetricAggregation extends AbstractAggregation
 {
-    /** @var string */
-    private $field;
+    private ?Field $field = null;
 
-    /** @var string */
-    private $script;
+    private ?SourceScript $script = null;
 
-    /** @var integer */
-    private $missing;
+    private ?int $missing = null;
 
-    abstract function getMetricName(): string;
+    /**
+     * @param array<AbstractAggregation> $aggregations
+     */
+    public function __construct(
+        string $nameAndField,
+        string|SourceScript|Field|null $fieldOrSource = null,
+        array $aggregations = []
+    ) {
+        parent::__construct($nameAndField, $aggregations);
 
-    public function setField(string $field)
+        if ($fieldOrSource === null) {
+            $fieldOrSource = $nameAndField;
+        }
+
+        if (is_string($fieldOrSource)) {
+            $this->field = new Field($fieldOrSource);
+        } elseif ($fieldOrSource instanceof Field) {
+            $this->field = $fieldOrSource;
+        } elseif ($fieldOrSource instanceof SourceScript) {
+            $this->script = $fieldOrSource;
+        } else {
+            throw new QueryException('Invalid field or source argument in metric aggregation');
+        }
+    }
+
+    public function setField(string|Field $field): self
     {
-        $this->field = $field;
+        $this->script = null;
+        $this->field = is_string($field) ? new Field($field) : $field;
 
         return $this;
     }
 
-    public function setScript(string $script)
+    public function setScript(string|SourceScript $script): self
     {
-        $this->script = $script;
+        $this->field = null;
+        $this->script = is_string($script) ? new SourceScript($script) : $script;
 
         return $this;
     }
 
-    public function setMissing(int $missing)
+    public function getField(): ?Field
+    {
+        return $this->field;
+    }
+
+    public function setMissing(?int $missing): self
     {
         $this->missing = $missing;
 
         return $this;
     }
 
-
-    public function build(): array
+    protected function buildAggregation(): array
     {
-        if (null !== $this->script) {
-            $term = [
-                'script' => [
-                    'source' => $this->script,
-                ],
-            ];
-        } elseif (null !== $this->field) {
-            $term = [
-                'field' => $this->field,
-            ];
-        } else {
-            throw new QueryException('You should call MinAggregation::setField() or MinAggregation::setScript() ');
+        $term = [];
+        if ($this->script !== null) {
+            $term = $this->script->build();
+        } elseif ($this->field !== null) {
+            $term = $this->field->build();
         }
 
-        if (null !== $this->missing) {
+        if ($this->missing !== null) {
             $term['missing'] = $this->missing;
         }
 
-        return [
-            $this->getMetricName() => $term,
-        ];
+        return $term;
     }
 }

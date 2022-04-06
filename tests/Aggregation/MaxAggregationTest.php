@@ -1,14 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Erichard\ElasticQueryBuilder\Aggregation;
 
 use Erichard\ElasticQueryBuilder\Aggregation\MaxAggregation;
-use Erichard\ElasticQueryBuilder\QueryException;
+use Erichard\ElasticQueryBuilder\Options\SourceScript;
 use PHPUnit\Framework\TestCase;
 
 class MaxAggregationTest extends TestCase
 {
-    public function test_it_build_the_aggregation_using_a_field()
+    public function testBuildWithNameOnly(): void
+    {
+        $query = new MaxAggregation('max_price');
+
+        $this->assertEquals([
+            'max' => [
+                'field' => 'max_price',
+            ],
+        ], $query->build());
+    }
+
+    public function testItBuildTheAggregationUsingAField(): void
     {
         $query = new MaxAggregation('max_price');
         $query->setField('price');
@@ -20,7 +33,20 @@ class MaxAggregationTest extends TestCase
         ], $query->build());
     }
 
-    public function test_it_build_the_aggregation_using_a_script()
+    public function testItBuildTheAggregationUsingAScript(): void
+    {
+        $query = new MaxAggregation('max_price', new SourceScript('doc.price.value'));
+
+        $this->assertEquals([
+            'max' => [
+                'script' => [
+                    'source' => 'doc.price.value',
+                ],
+            ],
+        ], $query->build());
+    }
+
+    public function testItBuildTheAggregationUsingAScriptViaSet(): void
     {
         $query = new MaxAggregation('max_price');
         $query->setScript('doc.price.value');
@@ -34,16 +60,7 @@ class MaxAggregationTest extends TestCase
         ], $query->build());
     }
 
-    public function test_it_fail_building_the_aggregation_without_field()
-    {
-        $query = new MaxAggregation('max_price');
-
-        $this->expectException(QueryException::class);
-
-        $query->build();
-    }
-
-    public function test_it_build_the_aggregation_with_missing_value()
+    public function testItBuildTheAggregationWithMissingValue(): void
     {
         $query = new MaxAggregation('max_price');
         $query->setField('price');

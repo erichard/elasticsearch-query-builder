@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\Query\MatchPhraseQuery;
@@ -7,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class MatchPhraseQueryTest extends TestCase
 {
-    public function test_it_build_the_query()
+    public function testItBuildTheQuery(): void
     {
         $query = new MatchPhraseQuery('title', 'a brown fox');
 
@@ -20,7 +22,7 @@ class MatchPhraseQueryTest extends TestCase
         ], $query->build());
     }
 
-    public function test_it_build_the_query_with_an_analyzer()
+    public function testItBuildTheQueryWithAnAnalyzer(): void
     {
         $query = new MatchPhraseQuery('title', 'a brown fox');
         $query->setAnalyzer('custom_analyzer');

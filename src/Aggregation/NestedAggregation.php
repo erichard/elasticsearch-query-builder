@@ -1,35 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Aggregation;
 
-class NestedAggregation extends Aggregation
+class NestedAggregation extends AbstractAggregation
 {
-    private $aggregation;
-    private $path;
+    /**
+     * @param array<AbstractAggregation> $aggregations
+     */
+    public function __construct(
+        string $name,
+        private string $path,
+        array $aggregations = []
+    ) {
+        parent::__construct($name, $aggregations);
+    }
 
-    public function setNestedPath(string $path)
+    public function setNestedPath(string $path): self
     {
         $this->path = $path;
 
         return $this;
     }
 
-    public function setAggregation(Aggregation $aggregation)
+    public function getNestedPath(): string
     {
-        $this->aggregation = $aggregation;
-
-        return $this;
+        return $this->path;
     }
 
-    public function build(): array
+    protected function getType(): string
+    {
+        return 'nested';
+    }
+
+    protected function buildAggregation(): array
     {
         return [
-            'nested' => [
-                'path' => $this->path,
-            ],
-            'aggs' => [
-                $this->aggregation->getName() => $this->aggregation->build(),
-            ],
+            'path' => $this->path,
         ];
     }
 }

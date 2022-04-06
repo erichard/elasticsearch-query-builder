@@ -1,28 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Query;
 
-use Erichard\ElasticQueryBuilder\QueryException;
+use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
+use Erichard\ElasticQueryBuilder\Features\HasField;
 
 class TermsQuery implements QueryInterface
 {
-    /** @var string */
-    protected $field;
+    use HasField;
 
-    /** @var array */
-    protected $values = [];
-
-    public function __construct(string $field, array $values)
-    {
+    /**
+     * @param array<int, string|int|float|bool> $values
+     */
+    public function __construct(
+        string $field,
+        protected array $values
+    ) {
         $this->field = $field;
-        $this->values = $values;
-    }
-
-    public function setField(string $field): self
-    {
-        $this->field = $field;
-
-        return $this;
     }
 
     public function setValues(array $values): self
@@ -34,16 +30,10 @@ class TermsQuery implements QueryInterface
 
     public function build(): array
     {
-        if (null === $this->field) {
-            throw new QueryException('You need to call setField() on'.__CLASS__);
-        }
-        if (empty($this->values)) {
-            throw new QueryException('You need to call setValues() on'.__CLASS__);
-        }
-
         return [
             'terms' => [
-                $this->field => $this->values,
+                $this->field => array_values($this->values),
+                // Ensure that user did not provide incorrect dictionary
             ],
         ];
     }

@@ -1,47 +1,53 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Erichard\ElasticQueryBuilder\Aggregation;
 
-use Erichard\ElasticQueryBuilder\Filter\Filter;
-use Erichard\ElasticQueryBuilder\QueryException;
+use Erichard\ElasticQueryBuilder\Features\HasField;
 
-class DateHistogramAggregation extends Aggregation
+/**
+ * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-datehistogram-aggregation.html
+ */
+class DateHistogramAggregation extends AbstractAggregation
 {
-    /** @var string */
-    private $field;
+    use HasField; // TODO enum
 
-    /** @var string */
-    private $calendarInterval;
-
-    public function setField(string $field)
-    {
-        $this->field = $field;
-
-        return $this;
+    /**
+     * @param array<AbstractAggregation> $aggregations
+     */
+    public function __construct(
+        string $nameAndField,
+        private string $calendarInterval,
+        ?string $field = null,
+        array $aggregations = []
+    ) {
+        parent::__construct($nameAndField, $aggregations);
+        $this->field = $field ?? $nameAndField;
     }
 
-    public function setCalendarInterval(string $calendarInterval)
+    public function setCalendarInterval(string $calendarInterval): self
     {
         $this->calendarInterval = $calendarInterval;
 
         return $this;
     }
 
-    public function build(): array
+    public function getCalendarInterval(): string
     {
-        if (null === $this->field) {
-            throw new QueryException('You should call DateHistogramAggregation::setField() before build.');
-        }
+        return $this->calendarInterval;
+    }
 
-        if (null === $this->calendarInterval) {
-            throw new QueryException('You should call DateHistogramAggregation::calendarInterval() before build.');
-        }
+    protected function getType(): string
+    {
+        return 'date_histogram';
+    }
 
+    protected function buildAggregation(): array
+    {
         return [
-            'date_histogram' => [
-                'field' => $this->field,
-                'calendar_interval' => $this->calendarInterval,
-            ]
+            'field' => $this->field,
+            'calendar_interval' => $this->calendarInterval,
         ];
     }
 }
