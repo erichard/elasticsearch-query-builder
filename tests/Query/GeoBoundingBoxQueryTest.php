@@ -40,9 +40,7 @@ class GeoBoundingBoxQueryTest extends TestCase
                     'bottom_right' => [
                         'lat' => 2.1,
                         'lon' => 3.1,
-                        
                     ],
-                    
                 ],
             ],
         ], $result);
@@ -66,9 +64,7 @@ class GeoBoundingBoxQueryTest extends TestCase
                     'bottom_left' => [
                         'lat' => 2.1,
                         'lon' => 3.1,
-                        
                     ],
-                    
                 ],
             ],
         ], $result);

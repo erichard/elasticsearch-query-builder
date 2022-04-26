@@ -48,7 +48,7 @@ class GeoBoundingBoxQuery implements QueryInterface
 
     protected function pointToArray(?GpsPointEntity $entity): ?array
     {
-        if ($entity === null) {
+        if (null === $entity) {
             return null;
         }
 
