@@ -29,7 +29,7 @@ class WildcardQuery implements QueryInterface
     {
         $escapeChars = ['*', '?'];
         foreach ($escapeChars as $escapeChar) {
-            $string = str_replace($escapeChar, '\\' . $escapeChar, $string);
+            $string = str_replace($escapeChar, '\\'.$escapeChar, $string);
         }
 
         return $string;

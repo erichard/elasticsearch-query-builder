@@ -83,7 +83,6 @@ class QueryBuilderTest extends TestCase
             ],
             'field2' => [
                 'order' => 'asc',
-
             ],
         ], $query['body']['sort']);
     }

@@ -59,11 +59,11 @@ class MultiMatchQuery implements QueryInterface
             'fields' => $this->fields,
         ];
 
-        if ($this->type !== null) {
+        if (null !== $this->type) {
             $data['type'] = $this->type;
         }
 
-        if ($this->fuzziness !== null) {
+        if (null !== $this->fuzziness) {
             $data['fuzziness'] = $this->fuzziness;
         }
 

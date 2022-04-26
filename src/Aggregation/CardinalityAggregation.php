@@ -42,7 +42,7 @@ class CardinalityAggregation extends MetricAggregation
     {
         $build = parent::buildAggregation();
 
-        if ($this->precisionThreshold !== null) {
+        if (null !== $this->precisionThreshold) {
             $build['precision_threshold'] = $this->precisionThreshold;
         }
 

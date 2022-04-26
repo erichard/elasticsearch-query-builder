@@ -34,7 +34,7 @@ class QueryStringQuery implements QueryInterface
             'query' => $this->query,
         ];
 
-        if ($this->defaultField !== null) {
+        if (null !== $this->defaultField) {
             $build['default_field'] = $this->defaultField;
         }
 

@@ -101,7 +101,7 @@ class BoolQuery implements QueryInterface
      */
     protected function buildQueries(array &$query, string $name, array $queries): self
     {
-        if ($queries === []) {
+        if ([] === $queries) {
             return $this;
         }
 

@@ -45,7 +45,7 @@ abstract class AbstractMatchQuery implements QueryInterface
             ],
         ];
 
-        if ($this->analyzer !== null) {
+        if (null !== $this->analyzer) {
             $query[$queryName][$this->field]['analyzer'] = $this->analyzer;
         }
 

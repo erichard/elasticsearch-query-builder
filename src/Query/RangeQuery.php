@@ -54,19 +54,19 @@ class RangeQuery implements QueryInterface
     {
         $query = [];
 
-        if ($this->gt !== null) {
+        if (null !== $this->gt) {
             $query['gt'] = $this->gt;
         }
 
-        if ($this->lt !== null) {
+        if (null !== $this->lt) {
             $query['lt'] = $this->lt;
         }
 
-        if ($this->gte !== null) {
+        if (null !== $this->gte) {
             $query['gte'] = $this->gte;
         }
 
-        if ($this->lte !== null) {
+        if (null !== $this->lte) {
             $query['lte'] = $this->lte;
         }
 

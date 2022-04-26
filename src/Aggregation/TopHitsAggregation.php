@@ -39,7 +39,7 @@ class TopHitsAggregation extends AbstractAggregation
             'size' => $this->size,
         ];
 
-        if ($this->script !== null) {
+        if (null !== $this->script) {
             $data['_source'] = [
                 'includes' => $this->script,
             ];

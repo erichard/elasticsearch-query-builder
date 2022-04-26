@@ -14,12 +14,12 @@ class RangesAggregation extends AbstractAggregation
      * Builds automatically range aggregation with simple ranges array of numeric.
      *
      * @param array<int>                 $ranges                  pass desired ranges that will be converted to
-     * linear range
+     *                                                            linear range
      * @param array<AbstractAggregation> $aggregations
      * @param bool                       $equalConditionOnToRange Se to true if you want to do a histogram with 0
-     * - 10, 10 - 15, and correctly count the number
-     * (entry with 10 will be in first and seconds
-     * segment
+     *                                                            - 10, 10 - 15, and correctly count the number
+     *                                                            (entry with 10 will be in first and seconds
+     *                                                            segment
      */
     public function __construct(
         string $name,
@@ -65,7 +65,7 @@ class RangesAggregation extends AbstractAggregation
 
         // Append "others"
         $ranges[] = [
-            'key' => $prevValue . '-*',
+            'key' => $prevValue.'-*',
             'from' => $prevValue,
         ];
 

@@ -26,7 +26,7 @@ abstract class MetricAggregation extends AbstractAggregation
     ) {
         parent::__construct($nameAndField, $aggregations);
 
-        if ($fieldOrSource === null) {
+        if (null === $fieldOrSource) {
             $fieldOrSource = $nameAndField;
         }
 
@@ -72,13 +72,13 @@ abstract class MetricAggregation extends AbstractAggregation
     protected function buildAggregation(): array
     {
         $term = [];
-        if ($this->script !== null) {
+        if (null !== $this->script) {
             $term = $this->script->build();
-        } elseif ($this->field !== null) {
+        } elseif (null !== $this->field) {
             $term = $this->field->build();
         }
 
-        if ($this->missing !== null) {
+        if (null !== $this->missing) {
             $term['missing'] = $this->missing;
         }
 

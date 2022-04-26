@@ -75,27 +75,27 @@ class QueryBuilder
             'body' => [],
         ];
 
-        if ($this->index !== null) {
+        if (null !== $this->index) {
             $query['index'] = $this->index;
         }
 
-        if ($this->from !== null) {
+        if (null !== $this->from) {
             $query['from'] = $this->from;
         }
 
-        if ($this->size !== null) {
+        if (null !== $this->size) {
             $query['size'] = $this->size;
         }
 
-        if ($this->source !== null) {
+        if (null !== $this->source) {
             $query['_source'] = $this->source;
         }
 
-        if ($this->query !== null) {
+        if (null !== $this->query) {
             $query['body']['query'] = $this->query->build();
         }
 
-        if ($this->postFilter !== null) {
+        if (null !== $this->postFilter) {
             $query['body']['post_filter'] = $this->postFilter->build();
         }
 

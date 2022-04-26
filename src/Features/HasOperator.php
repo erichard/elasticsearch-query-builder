@@ -17,7 +17,7 @@ trait HasOperator
 
     public function buildOperatorTo(array &$array): self
     {
-        if ($this->operator === null) {
+        if (null === $this->operator) {
             return $this;
         }
 

@@ -40,7 +40,7 @@ trait HasAggregations
 
     protected function buildAggregationsTo(array &$toArray): self
     {
-        if (count($this->aggregations) === 0) {
+        if (0 === count($this->aggregations)) {
             return $this;
         }
 

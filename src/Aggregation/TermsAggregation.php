@@ -76,27 +76,27 @@ class TermsAggregation extends AbstractAggregation
     protected function buildAggregation(): array
     {
         $build = [];
-        if ($this->script !== null) {
+        if (null !== $this->script) {
             $build = [
                 'script' => $this->script->build(),
             ];
-        } elseif ($this->field !== null) {
+        } elseif (null !== $this->field) {
             $build = $this->field->build() + [
                 'size' => $this->size,
             ];
         }
 
-        if ($this->orderField !== null) {
+        if (null !== $this->orderField) {
             $build['order'] = [
                 $this->orderField => $this->orderValue,
             ];
         }
 
-        if ($this->include !== null) {
+        if (null !== $this->include) {
             $build['include'] = $this->include;
         }
 
-        if ($this->exclude !== null) {
+        if (null !== $this->exclude) {
             $build['exclude'] = $this->exclude;
         }
 

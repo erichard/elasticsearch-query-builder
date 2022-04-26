@@ -40,7 +40,7 @@ class PrefixQuery implements QueryInterface
     {
         $value = $this->value;
 
-        if ($this->boost !== null) {
+        if (null !== $this->boost) {
             $value = [
                 'value' => $this->value,
                 'boost' => $this->boost,

@@ -31,7 +31,7 @@ class RankFeatureQuery implements QueryInterface
             'field' => $this->field,
         ];
 
-        if ($this->boost !== null) {
+        if (null !== $this->boost) {
             $build['boost'] = $this->boost;
         }
 

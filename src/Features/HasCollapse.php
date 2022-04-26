@@ -36,7 +36,7 @@ trait HasCollapse
      */
     protected function buildCollapseTo(array &$toArray): self
     {
-        if ($this->collapse !== null) {
+        if (null !== $this->collapse) {
             $toArray['collapse'] = $this->collapse->build();
         }
 
