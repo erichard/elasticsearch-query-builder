@@ -9,9 +9,9 @@ namespace Erichard\ElasticQueryBuilder\Features;
  */
 trait HasExtendedBounds
 {
-    protected ?string $min;
+    protected ?string $min = null;
 
-    protected ?string $max;
+    protected ?string $max = null;
 
     public function setMin(?string $min): self
     {
