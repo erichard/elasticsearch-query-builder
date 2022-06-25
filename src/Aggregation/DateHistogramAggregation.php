@@ -12,7 +12,8 @@ use Erichard\ElasticQueryBuilder\Features\HasField;
  */
 class DateHistogramAggregation extends AbstractAggregation
 {
-    use HasField, HasExtendedBounds; // TODO enum
+    use HasField;
+    use HasExtendedBounds; // TODO enum
 
     /**
      * @param array<AbstractAggregation> $aggregations
@@ -55,7 +56,7 @@ class DateHistogramAggregation extends AbstractAggregation
             'calendar_interval' => $this->calendarInterval,
         ];
 
-        if ($this->min !== null && $this->max !== null) {
+        if (null !== $this->min && null !== $this->max) {
             $build['extended_bounds']['min'] = $this->min;
             $build['extended_bounds']['max'] = $this->max;
         }

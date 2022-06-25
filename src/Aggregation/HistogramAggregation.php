@@ -9,7 +9,8 @@ use Erichard\ElasticQueryBuilder\Features\HasField;
 
 class HistogramAggregation extends AbstractAggregation
 {
-    use HasField, HasExtendedBounds;
+    use HasField;
+    use HasExtendedBounds;
 
     /**
      * @param array<AbstractAggregation> $aggregations
@@ -50,7 +51,7 @@ class HistogramAggregation extends AbstractAggregation
             'interval' => $this->interval,
         ];
 
-        if ($this->min !== null && $this->max !== null) {
+        if (null !== $this->min && null !== $this->max) {
             $build['extended_bounds']['min'] = $this->min;
             $build['extended_bounds']['max'] = $this->max;
         }
