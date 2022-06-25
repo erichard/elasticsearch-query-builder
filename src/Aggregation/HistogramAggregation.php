@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Erichard\ElasticQueryBuilder\Aggregation;
 
+use Erichard\ElasticQueryBuilder\Features\HasExtendedBounds;
 use Erichard\ElasticQueryBuilder\Features\HasField;
 
 class HistogramAggregation extends AbstractAggregation
 {
-    use HasField;
+    use HasField, HasExtendedBounds;
 
     /**
      * @param array<AbstractAggregation> $aggregations
@@ -17,10 +18,14 @@ class HistogramAggregation extends AbstractAggregation
         string $name,
         string $field,
         private int $interval,
-        array $aggregations = []
+        array $aggregations = [],
+        ?string $min = null,
+        ?string $max = null,
     ) {
         parent::__construct($name, $aggregations);
         $this->field = $field;
+        $this->min = $min;
+        $this->max = $max;
     }
 
     public function getInterval(): int
@@ -40,9 +45,16 @@ class HistogramAggregation extends AbstractAggregation
 
     protected function buildAggregation(): array
     {
-        return [
+        $build = [
             'field' => $this->field,
             'interval' => $this->interval,
         ];
+
+        if ($this->min !== null && $this->max !== null) {
+            $build['extended_bounds']['min'] = $this->min;
+            $build['extended_bounds']['max'] = $this->max;
+        }
+
+        return $build;
     }
 }

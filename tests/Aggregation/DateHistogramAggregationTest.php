@@ -47,4 +47,26 @@ class DateHistogramAggregationTest extends TestCase
             ],
         ], $aggregation->build());
     }
+
+    public function testWithExtendedBounds(): void
+    {
+        $nameAndField = 'per_day';
+        $calendarInterval = 'day';
+        $field = 'date';
+        $min = '2022-01-10';
+        $max = '2022-01-20';
+
+        $aggregation = new DateHistogramAggregation($nameAndField, $calendarInterval, $field, [], $min, $max);
+
+        $this->assertEquals([
+            'date_histogram' => [
+                'field' => $field,
+                'calendar_interval' => $calendarInterval,
+                'extended_bounds' => [
+                    'min' => $min,
+                    'max' => $max,
+                ],
+            ],
+        ], $aggregation->build());
+    }
 }
