@@ -41,9 +41,14 @@ class Query
         return new BoolQuery($must, $mustNot, $should, $filter);
     }
 
-    public static function range(string $field): RangeQuery
-    {
-        return new RangeQuery($field);
+    public static function range(
+        string $field,
+        int|float|string|null $lt = null,
+        int|float|string|null $gt = null,
+        int|float|string|null $lte = null,
+        int|float|string|null $gte = null
+    ): RangeQuery {
+        return new RangeQuery($field, $lt, $gt, $lte, $gte);
     }
 
     public static function nested(string $field, QueryInterface $query): NestedQuery

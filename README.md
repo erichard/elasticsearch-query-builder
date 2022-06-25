@@ -13,7 +13,7 @@ Installation
 ------------
 
 ```bash
-composer require erichard/elasticsearch-query-builder
+composer require erichard/elasticsearch-query-builder "^3.0@beta"
 ```
 
 Usage
@@ -28,7 +28,6 @@ use Erichard\ElasticQueryBuilder\Filter\Filter;
 $query = new QueryBuilder();
 
 $query
-    ->setType('my_type')
     ->setIndex('app')
     ->setSize(10)
 ;
@@ -48,20 +47,34 @@ $query->addFilter($boolFilter);
 $results = $client->search($query->build());
 ```
 
-with PHP 8.1 you can do this:
+with PHP 8.1 you can use named arguments like this:
 
 ```php
-new BoolQuery(should: [
+$query = new BoolQuery(must: [
     new RangeQuery(
-        field: PriceTermsIndex::PREFIX_OPTION . OptionIds::PERSONS_MAX,
-        gte: $this->roomCount
+        field: 'price',
+        gte: 100
     ),
     new RangeQuery(
-        field: PriceTermsIndex::PREFIX_OPTION . OptionIds::PERSONS_MAX,
-        gte: $this->roomCount
+        field: 'stock',
+        gte: 10
     ),
-])
-]
+]);
+```
+
+or with the factory
+
+```php
+$query = Query::bool(must: [
+    Query::range(
+        field: 'price',
+        gte: 100
+    ),
+    Query::range(
+        field: 'stock',
+        gte: 10
+    ),
+]);
 ```
 
 Contribution
