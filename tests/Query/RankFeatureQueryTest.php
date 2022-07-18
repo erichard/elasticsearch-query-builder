@@ -7,7 +7,7 @@ namespace Tests\Erichard\ElasticQueryBuilder\Query;
 use Erichard\ElasticQueryBuilder\Query\RankFeatureQuery;
 use PHPUnit\Framework\TestCase;
 
-class RankFeatureTest extends TestCase
+class RankFeatureQueryTest extends TestCase
 {
     public function testItBuildTheQuery(): void
     {
