@@ -48,7 +48,7 @@ class PrefixQuery implements QueryInterface
         return [
             'prefix' => [
                 $this->field => $build,
-            ]
+            ],
         ];
     }
 }

@@ -12,7 +12,13 @@ class MatchQuery extends AbstractMatchQuery
     use HasOperator;
     use HasMinimumShouldMatch;
 
-    public function __construct(string $field, string $query, ?string $analyzer = null, ?string $operator = null, ?string $minimumShouldMatch = null)
+    public function __construct(
+        string $field,
+        string $query,
+        ?string $analyzer = null,
+        ?string $operator = null,
+        ?string $minimumShouldMatch = null
+    )
     {
         parent::__construct($field, $query, $analyzer);
 

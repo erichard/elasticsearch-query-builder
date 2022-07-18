@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Erichard\ElasticQueryBuilder\Query;
 
-use Erichard\ElasticQueryBuilder\Query\MatchQuery;
 use Erichard\ElasticQueryBuilder\Query\RangeQuery;
 use PHPUnit\Framework\TestCase;
 

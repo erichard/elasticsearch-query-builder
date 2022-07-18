@@ -32,7 +32,7 @@ trait HasSorting
      */
     protected function buildSortTo(array &$toArray): self
     {
-        if (false === empty($this->sort)) {
+        if (empty($this->sort) === false) {
             foreach ($this->sort as $sort => $config) {
                 $toArray['sort'][$sort] = $config;
             }
