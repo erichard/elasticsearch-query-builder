@@ -29,13 +29,8 @@ class MatchQuery extends AbstractMatchQuery
     {
         $build = parent::build();
 
-        if (null !== $this->operator) {
-            $this->buildOperatorTo($build[$this->getQueryName()][$this->field]);
-        }
-
-        if (null !== $this->minimumShouldMatch) {
-            $this->buildMinimumShouldMatchTo($build[$this->getQueryName()][$this->field]);
-        }
+        $this->buildOperatorTo($build[$this->getQueryName()][$this->field]);
+        $this->buildMinimumShouldMatchTo($build[$this->getQueryName()][$this->field]);
 
         return $build;
     }
