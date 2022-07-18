@@ -18,8 +18,7 @@ class MatchQuery extends AbstractMatchQuery
         ?string $analyzer = null,
         ?string $operator = null,
         ?string $minimumShouldMatch = null
-    )
-    {
+    ) {
         parent::__construct($field, $query, $analyzer);
 
         $this->operator = $operator;
