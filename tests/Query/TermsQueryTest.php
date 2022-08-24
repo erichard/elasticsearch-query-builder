@@ -11,11 +11,12 @@ class TermsQueryTest extends TestCase
 {
     public function testItBuildTheQueryWithAConstructor(): void
     {
-        $query = new TermsQuery('field', ['value1', 'value2']);
+        $query = new TermsQuery('field', ['value1', 'value2'], 1.4);
 
         $this->assertEquals([
             'terms' => [
                 'field' => ['value1', 'value2'],
+                'boost' => 1.4,
             ],
         ], $query->build());
     }

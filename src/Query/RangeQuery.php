@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
+use Erichard\ElasticQueryBuilder\Features\HasBoost;
 use Erichard\ElasticQueryBuilder\Features\HasField;
+use Erichard\ElasticQueryBuilder\Features\HasFormat;
 use Erichard\ElasticQueryBuilder\QueryException;
 
 class RangeQuery implements QueryInterface
 {
     use HasField;
+    use HasFormat;
+    use HasBoost;
 
     public function __construct(
         string $field,
@@ -18,8 +22,12 @@ class RangeQuery implements QueryInterface
         protected int|float|string|null $gt = null,
         protected int|float|string|null $lte = null,
         protected int|float|string|null $gte = null,
+        ?string $format = null,
+        ?float $boost = null
     ) {
         $this->field = $field;
+        $this->format = $format;
+        $this->boost = $boost;
     }
 
     public function gt(int|float|string|null $value): self
@@ -73,6 +81,9 @@ class RangeQuery implements QueryInterface
         if (empty($query)) {
             throw new QueryException('Empty RangeQuery');
         }
+
+        $this->buildFormatTo($query);
+        $this->buildBoostTo($query);
 
         return [
             'range' => [

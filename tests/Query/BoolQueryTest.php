@@ -69,7 +69,9 @@ class BoolQueryTest extends TestCase
                 'must' => [
                     [
                         'term' => [
-                            'field' => 'value',
+                            'field' => [
+                                'value' => 'value',
+                            ],
                         ],
                     ],
                 ],
@@ -90,7 +92,9 @@ class BoolQueryTest extends TestCase
                 'must_not' => [
                     [
                         'term' => [
-                            'field' => 'value',
+                            'field' => [
+                                'value' => 'value',
+                            ],
                         ],
                     ],
                 ],
@@ -111,7 +115,9 @@ class BoolQueryTest extends TestCase
                 'should' => [
                     [
                         'term' => [
-                            'field' => 'value',
+                            'field' => [
+                                'value' => 'value',
+                            ],
                         ],
                     ],
                 ],
@@ -132,7 +138,9 @@ class BoolQueryTest extends TestCase
                 'filter' => [
                     [
                         'term' => [
-                            'field' => 'value',
+                            'field' => [
+                                'value' => 'value',
+                            ],
                         ],
                     ],
                 ],

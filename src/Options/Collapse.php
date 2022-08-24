@@ -48,7 +48,7 @@ class Collapse implements BuildsArray
             $result['max_concurrent_group_searches'] = $this->maxConcurrentSearchers;
         }
 
-        if (false === empty($this->innerHits)) {
+        if (empty($this->innerHits) === false) {
             $result['inner_hits'] = array_map(fn (InnerHit $hit) => $hit->build(), $this->innerHits);
         }
 

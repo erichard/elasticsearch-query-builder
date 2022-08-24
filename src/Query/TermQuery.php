@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
+use Erichard\ElasticQueryBuilder\Features\HasBoost;
+use Erichard\ElasticQueryBuilder\Features\HasCaseInsensitive;
 use Erichard\ElasticQueryBuilder\Features\HasField;
 
 /**
@@ -13,12 +15,18 @@ use Erichard\ElasticQueryBuilder\Features\HasField;
 class TermQuery implements QueryInterface
 {
     use HasField;
+    use HasBoost;
+    use HasCaseInsensitive;
 
     public function __construct(
         string $field,
-        protected string|int|float|bool $value
+        protected string|int|float|bool $value,
+        ?float $boost = null,
+        ?bool $caseInsensitive = null
     ) {
         $this->field = $field;
+        $this->boost = $boost;
+        $this->caseInsensitive = $caseInsensitive;
     }
 
     public function setValue(string|int|float|bool $value): self
@@ -30,10 +38,17 @@ class TermQuery implements QueryInterface
 
     public function build(): array
     {
-        return [
-            'term' => [
-                $this->field => $this->value,
+        $build = [
+            $this->field => [
+                'value' => $this->value,
             ],
+        ];
+
+        $this->buildBoostTo($build[$this->field]);
+        $this->buildCaseInsensitiveTo($build[$this->field]);
+
+        return [
+            'term' => $build,
         ];
     }
 }
