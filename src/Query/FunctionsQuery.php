@@ -8,8 +8,10 @@ use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
 
 class FunctionsQuery implements QueryInterface
 {
-    public function __construct(protected ?string $field = null, protected ?float $weight = null,)
-    {
+    public function __construct(
+        protected ?string $field = null,
+        protected ?float $weight = null,
+    ) {
     }
 
     public function setField(string $field): self
@@ -28,13 +30,14 @@ class FunctionsQuery implements QueryInterface
 
     public function build(): array
     {
+        $functions = [];
         $functions['filter'] = [
             'term' => [
                 '_index' => $this->field,
             ],
         ];
 
-        if ($this->weight !== null) {
+        if (null !== $this->weight) {
             $functions['weight'] = $this->weight;
         }
 

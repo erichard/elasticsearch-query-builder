@@ -58,11 +58,12 @@ class FunctionScoreQuery implements QueryInterface
 
     public function build(): array
     {
-        if ($this->boostMode !== null) {
+        $build = [];
+        if (null !== $this->boostMode) {
             $build['boost_mode'] = $this->boostMode;
         }
 
-        if ($this->functions !== null) {
+        if (null !== $this->functions) {
             $build['functions'] = $this->functions;
         }
 
@@ -73,7 +74,7 @@ class FunctionScoreQuery implements QueryInterface
             ],
         ];
 
-        if ($this->boost !== null) {
+        if (null !== $this->boost) {
             $build['query']['query_string'] = $this->boost;
         }
 
