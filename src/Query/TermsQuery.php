@@ -19,7 +19,8 @@ class TermsQuery implements QueryInterface
     public function __construct(
         string $field,
         protected array $values,
-        ?float $boost = null
+        ?float $boost = null,
+        protected array $params = [],
     ) {
         $this->field = $field;
         $this->boost = $boost;
@@ -34,10 +35,8 @@ class TermsQuery implements QueryInterface
 
     public function build(): array
     {
-        $build = [
-            $this->field => array_values($this->values),
-            // Ensure that user did not provide incorrect dictionary
-        ];
+        $build = $this->params;
+        $build[$this->field] = array_values($this->values);
 
         $this->buildBoostTo($build);
 

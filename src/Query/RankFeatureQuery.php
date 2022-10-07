@@ -13,17 +13,19 @@ class RankFeatureQuery implements QueryInterface
     use HasField;
     use HasBoost;
 
-    public function __construct(string $field, ?float $boost = null)
-    {
+    public function __construct(
+        string $field,
+        ?float $boost = null,
+        protected array $params = [],
+    ) {
         $this->field = $field;
         $this->boost = $boost;
     }
 
     public function build(): array
     {
-        $build = [
-            'field' => $this->field,
-        ];
+        $build = $this->params;
+        $build['field'] = $this->field;
 
         $this->buildBoostTo($build);
 

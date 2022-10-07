@@ -22,7 +22,8 @@ class PrefixQuery implements QueryInterface
         string $field,
         protected string $value,
         ?string $rewrite = null,
-        ?bool $caseInsensitive = null
+        ?bool $caseInsensitive = null,
+        protected array $params = [],
     ) {
         $this->field = $field;
         $this->rewrite = $rewrite;
@@ -38,9 +39,8 @@ class PrefixQuery implements QueryInterface
 
     public function build(): array
     {
-        $build = [
-            'value' => $this->value,
-        ];
+        $build = $this->params;
+        $build['value'] = $this->value;
 
         $this->buildRewriteTo($build);
         $this->buildCaseInsensitiveTo($build);

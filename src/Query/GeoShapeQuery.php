@@ -16,7 +16,8 @@ class GeoShapeQuery implements QueryInterface
     public function __construct(
         private string $field,
         private string $type,
-        private array $coordinates
+        private array $coordinates,
+        private array $params = [],
     ) {
     }
 
@@ -50,16 +51,17 @@ class GeoShapeQuery implements QueryInterface
 
     public function build(): array
     {
-        return [
-            'geo_shape' => [
-                $this->field => [
-                    'shape' => [
-                        'type' => $this->type,
-                        'coordinates' => $this->coordinates,
-                    ],
-                    'relation' => $this->relation,
+        $build = $this->params;
+        $build['geo_shape'] = [
+            $this->field => [
+                'shape' => [
+                    'type' => $this->type,
+                    'coordinates' => $this->coordinates,
                 ],
+                'relation' => $this->relation,
             ],
         ];
+
+        return $build;
     }
 }

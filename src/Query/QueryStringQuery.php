@@ -6,7 +6,6 @@ namespace Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
 use Erichard\ElasticQueryBuilder\Features\HasBoost;
-use Erichard\ElasticQueryBuilder\Features\HasDefaultOptions;
 use Erichard\ElasticQueryBuilder\Features\HasMinimumShouldMatch;
 use Erichard\ElasticQueryBuilder\Features\HasRewrite;
 
@@ -15,7 +14,6 @@ class QueryStringQuery implements QueryInterface
     use HasBoost;
     use HasMinimumShouldMatch;
     use HasRewrite;
-    use HasDefaultOptions;
 
     public function __construct(
         protected string $query,
@@ -24,7 +22,8 @@ class QueryStringQuery implements QueryInterface
         protected ?array $fields = null,
         ?float $boost = null,
         ?string $minimumShouldMatch = null,
-        ?string $rewrite = null
+        ?string $rewrite = null,
+        protected array $params = [],
     ) {
         $this->boost = $boost;
         $this->minimumShouldMatch = $minimumShouldMatch;
@@ -61,7 +60,7 @@ class QueryStringQuery implements QueryInterface
 
     public function build(): array
     {
-        $build = $this->getDefaultOptions();
+        $build = $this->params;
         $build['query'] = $this->query;
 
         if (null !== $this->defaultField) {

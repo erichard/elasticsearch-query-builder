@@ -25,7 +25,8 @@ class MultiMatchQuery implements QueryInterface
         protected ?string $fuzziness = null,
         ?string $operator = null,
         ?float $boost = null,
-        ?string $minimumShouldMatch = null
+        ?string $minimumShouldMatch = null,
+        protected array $params = [],
     ) {
         $this->operator = $operator;
         $this->boost = $boost;
@@ -79,8 +80,9 @@ class MultiMatchQuery implements QueryInterface
         $this->buildBoostTo($data);
         $this->buildMinimumShouldMatchTo($data);
 
-        return [
-            'multi_match' => $data,
-        ];
+        $build = $this->params;
+        $build['multi_match'] = $data;
+
+        return $build;
     }
 }

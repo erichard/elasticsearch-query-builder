@@ -22,7 +22,8 @@ class TermQuery implements QueryInterface
         string $field,
         protected string|int|float|bool $value,
         ?float $boost = null,
-        ?bool $caseInsensitive = null
+        ?bool $caseInsensitive = null,
+        protected array $params = [],
     ) {
         $this->field = $field;
         $this->boost = $boost;
@@ -38,10 +39,9 @@ class TermQuery implements QueryInterface
 
     public function build(): array
     {
-        $build = [
-            $this->field => [
-                'value' => $this->value,
-            ],
+        $build = $this->params;
+        $build[$this->field] = [
+            'value' => $this->value,
         ];
 
         $this->buildBoostTo($build[$this->field]);

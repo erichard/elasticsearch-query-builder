@@ -17,7 +17,8 @@ class GeoDistanceQuery implements QueryInterface
     public function __construct(
         private string $distance,
         string $field,
-        private array $position
+        private array $position,
+        private array $params = [],
     ) {
         $this->field = $field;
     }
@@ -38,14 +39,15 @@ class GeoDistanceQuery implements QueryInterface
 
     public function build(): array
     {
-        return [
-            'geo_distance' => [
-                'distance' => $this->distance,
-                $this->field => [
-                    'lat' => $this->position[0],
-                    'lon' => $this->position[1],
-                ],
+        $build = $this->params;
+        $build['geo_distance'] = [
+            'distance' => $this->distance,
+            $this->field => [
+                'lat' => $this->position[0],
+                'lon' => $this->position[1],
             ],
         ];
+
+        return $build;
     }
 }

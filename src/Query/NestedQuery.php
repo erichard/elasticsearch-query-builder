@@ -10,7 +10,8 @@ class NestedQuery implements QueryInterface
 {
     public function __construct(
         protected ?string $path,
-        protected QueryInterface $query
+        protected QueryInterface $query,
+        protected array $params = [],
     ) {
     }
 
@@ -30,11 +31,12 @@ class NestedQuery implements QueryInterface
 
     public function build(): array
     {
-        return [
-            'nested' => [
-                'path' => $this->path,
-                'query' => $this->query->build(),
-            ],
+        $build = $this->params;
+        $build['nested'] = [
+            'path' => $this->path,
+            'query' => $this->query->build(),
         ];
+
+        return $build;
     }
 }

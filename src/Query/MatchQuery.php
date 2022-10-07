@@ -17,9 +17,10 @@ class MatchQuery extends AbstractMatchQuery
         string $query,
         ?string $analyzer = null,
         ?string $operator = null,
-        ?string $minimumShouldMatch = null
+        ?string $minimumShouldMatch = null,
+        array $params = [],
     ) {
-        parent::__construct($field, $query, $analyzer);
+        parent::__construct($field, $query, $analyzer, $params);
 
         $this->operator = $operator;
         $this->minimumShouldMatch = $minimumShouldMatch;
