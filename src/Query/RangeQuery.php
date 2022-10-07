@@ -6,6 +6,7 @@ namespace Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
 use Erichard\ElasticQueryBuilder\Features\HasBoost;
+use Erichard\ElasticQueryBuilder\Features\HasDefaultOptions;
 use Erichard\ElasticQueryBuilder\Features\HasField;
 use Erichard\ElasticQueryBuilder\Features\HasFormat;
 use Erichard\ElasticQueryBuilder\QueryException;
@@ -15,6 +16,7 @@ class RangeQuery implements QueryInterface
     use HasField;
     use HasFormat;
     use HasBoost;
+    use HasDefaultOptions;
 
     public function __construct(
         string $field,
@@ -60,7 +62,7 @@ class RangeQuery implements QueryInterface
 
     public function build(): array
     {
-        $query = [];
+        $query = $this->getDefaultOptions();
 
         if (null !== $this->gt) {
             $query['gt'] = $this->gt;
