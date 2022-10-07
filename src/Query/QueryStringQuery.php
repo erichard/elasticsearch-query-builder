@@ -23,6 +23,7 @@ class QueryStringQuery implements QueryInterface
         ?float $boost = null,
         ?string $minimumShouldMatch = null,
         ?string $rewrite = null,
+        protected ?string $fuzziness = null,
         protected array $params = [],
     ) {
         $this->boost = $boost;
@@ -58,6 +59,20 @@ class QueryStringQuery implements QueryInterface
         return $this;
     }
 
+    public function setFuzziness(?string $fuzziness): self
+    {
+        $this->fuzziness = $fuzziness;
+
+        return $this;
+    }
+
+    public function setParams(array $params): self
+    {
+        $this->params = $params;
+
+        return $this;
+    }
+
     public function build(): array
     {
         $build = $this->params;
@@ -73,6 +88,10 @@ class QueryStringQuery implements QueryInterface
 
         if (null !== $this->fields) {
             $build['fields'] = $this->fields;
+        }
+
+        if (null !== $this->fuzziness) {
+            $build['fuzziness'] = $this->fuzziness;
         }
 
         $this->buildBoostTo($build);

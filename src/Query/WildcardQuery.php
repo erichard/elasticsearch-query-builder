@@ -36,6 +36,13 @@ class WildcardQuery implements QueryInterface
         return $string;
     }
 
+    public function setParams(array $params): self
+    {
+        $this->params = $params;
+
+        return $this;
+    }
+
     public function build(): array
     {
         $build = $this->params;

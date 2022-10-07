@@ -59,6 +59,13 @@ class RangeQuery implements QueryInterface
         return $this;
     }
 
+    public function setParams(array $params): self
+    {
+        $this->params = $params;
+
+        return $this;
+    }
+
     public function build(): array
     {
         $query = $this->params;

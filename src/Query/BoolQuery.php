@@ -76,6 +76,13 @@ class BoolQuery implements QueryInterface
             && empty($this->filter);
     }
 
+    public function setParams(array $params): self
+    {
+        $this->params = $params;
+
+        return $this;
+    }
+
     public function build(): array
     {
         $query = $this->params;
