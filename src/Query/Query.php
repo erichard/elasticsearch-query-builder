@@ -11,31 +11,19 @@ class Query
     /**
      * @param array<int, string|int|float|bool> $values
      */
-    public static function terms(string $field, array $values, array $params = []): TermsQuery
+    public static function terms(string $field, array $values): TermsQuery
     {
-        return new TermsQuery(
-            field: $field,
-            values: $values,
-            params: $params,
-        );
+        return new TermsQuery($field, $values);
     }
 
-    public static function term(string $field, string|int|float|bool $value, array $params = []): TermQuery
+    public static function term(string $field, string|int|float|bool $value): TermQuery
     {
-        return new TermQuery(
-            field: $field,
-            value: $value,
-            params: $params,
-        );
+        return new TermQuery($field, $value);
     }
 
-    public static function wildcard(string $field, string $value, array $params = []): WildcardQuery
+    public static function wildcard(string $field, string $value): WildcardQuery
     {
-        return new WildcardQuery(
-            field: $field,
-            value: $value,
-            params: $params,
-        );
+        return new WildcardQuery($field, $value);
     }
 
     /**
@@ -49,15 +37,8 @@ class Query
         array $mustNot = [],
         array $should = [],
         array $filter = [],
-        array $params = [],
     ): BoolQuery {
-        return new BoolQuery(
-            must: $must,
-            mustNot: $mustNot,
-            should: $should,
-            filter: $filter,
-            params: $params,
-        );
+        return new BoolQuery($must, $mustNot, $should, $filter);
     }
 
     public static function range(
@@ -66,112 +47,63 @@ class Query
         int|float|string|null $gt = null,
         int|float|string|null $lte = null,
         int|float|string|null $gte = null,
-        array $params = [],
     ): RangeQuery {
-        return new RangeQuery(
-            field: $field,
-            lt: $lt,
-            gt: $gt,
-            lte: $lte,
-            gte: $gte,
-            params: $params,
-        );
+        return new RangeQuery($field, $lt, $gt, $lte, $gte);
     }
 
-    public static function nested(string $field, QueryInterface $query, array $params = []): NestedQuery
+    public static function nested(string $field, QueryInterface $query): NestedQuery
     {
-        return new NestedQuery(
-            path: $field,
-            query: $query,
-            params: $params,
-        );
+        return new NestedQuery($field, $query);
     }
 
-    public static function match(string $field, string $query, array $params = []): MatchQuery
+    public static function match(string $field, string $query): MatchQuery
     {
-        return new MatchQuery(
-            field: $field,
-            query: $query,
-            params: $params,
-        );
+        return new MatchQuery($field, $query);
     }
 
-    public static function matchPhrase(string $field, string $query, array $params = []): MatchPhraseQuery
+    public static function matchPhrase(string $field, string $query): MatchPhraseQuery
     {
-        return new MatchPhraseQuery(
-            field: $field,
-            query: $query,
-            params: $params,
-        );
+        return new MatchPhraseQuery($field, $query);
     }
 
-    public static function matchPhrasePrefix(string $field, string $query, array $params = []): MatchPhrasePrefixQuery
+    public static function matchPhrasePrefix(string $field, string $query): MatchPhrasePrefixQuery
     {
-        return new MatchPhrasePrefixQuery(
-            field: $field,
-            query: $query,
-            params: $params,
-        );
+        return new MatchPhrasePrefixQuery($field, $query);
     }
 
-    public static function multiMatch(array $fields, string $query, array $params = []): MultiMatchQuery
+    public static function multiMatch(array $fields, string $query): MultiMatchQuery
     {
-        return new MultiMatchQuery(
-            fields: $fields,
-            query: $query,
-            params: $params,
-        );
+        return new MultiMatchQuery($fields, $query);
     }
 
     /**
      * @param float[]|int[] $position
      */
-    public static function geoDistance(string $field, string $distance, array $position, array $params = []): GeoDistanceQuery
+    public static function geoDistance(string $field, string $distance, array $position): GeoDistanceQuery
     {
-        return new GeoDistanceQuery(
-            distance: $distance,
-            field: $field,
-            position: $position,
-            params: $params,
-        );
+        return new GeoDistanceQuery($distance, $field, $position);
     }
 
     /**
      * @param mixed[]|float[]|int[] $coordinates
      */
-    public static function geoShape(string $field, string $type, array $coordinates, array $params = []): GeoShapeQuery
+    public static function geoShape(string $field, string $type, array $coordinates): GeoShapeQuery
     {
-        return new GeoShapeQuery(
-            field: $field,
-            type: $type,
-            coordinates: $coordinates,
-            params: $params,
-        );
+        return new GeoShapeQuery($field, $type, $coordinates);
     }
 
-    public static function prefix(string $field, string $value, array $params = []): PrefixQuery
+    public static function prefix(string $field, string $value): PrefixQuery
     {
-        return new PrefixQuery(
-            field: $field,
-            value: $value,
-            params: $params,
-        );
+        return new PrefixQuery($field, $value);
     }
 
-    public static function queryString(string $query, string $defaultField = null, array $params = []): QueryStringQuery
+    public static function queryString(string $query, string $defaultField = null): QueryStringQuery
     {
-        return new QueryStringQuery(
-            query: $query,
-            defaultField: $defaultField,
-            params: $params,
-        );
+        return new QueryStringQuery($query, $defaultField);
     }
 
-    public static function rankFeature(string $field, array $params = []): RankFeatureQuery
+    public static function rankFeature(string $field): RankFeatureQuery
     {
-        return new RankFeatureQuery(
-            field: $field,
-            params: $params,
-        );
+        return new RankFeatureQuery($field);
     }
 }

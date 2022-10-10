@@ -6,6 +6,7 @@ namespace Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
 use Erichard\ElasticQueryBuilder\Features\HasBoost;
+use Erichard\ElasticQueryBuilder\Features\HasFuzziness;
 use Erichard\ElasticQueryBuilder\Features\HasMinimumShouldMatch;
 use Erichard\ElasticQueryBuilder\Features\HasOperator;
 
@@ -14,6 +15,7 @@ class MultiMatchQuery implements QueryInterface
     use HasOperator;
     use HasBoost;
     use HasMinimumShouldMatch;
+    use HasFuzziness;
 
     /**
      * @param mixed[]|string[] $fields
@@ -22,7 +24,7 @@ class MultiMatchQuery implements QueryInterface
         protected array $fields,
         protected string $query,
         protected ?string $type = null,
-        protected ?string $fuzziness = null,
+        ?string $fuzziness = null,
         ?string $operator = null,
         ?float $boost = null,
         ?string $minimumShouldMatch = null,
@@ -31,6 +33,7 @@ class MultiMatchQuery implements QueryInterface
         $this->operator = $operator;
         $this->boost = $boost;
         $this->minimumShouldMatch = $minimumShouldMatch;
+        $this->fuzziness = $fuzziness;
     }
 
     public function setFields(array $fields): self
@@ -54,13 +57,6 @@ class MultiMatchQuery implements QueryInterface
         return $this;
     }
 
-    public function setFuzziness(string $fuzziness): self
-    {
-        $this->fuzziness = $fuzziness;
-
-        return $this;
-    }
-
     public function setParams(array $params): self
     {
         $this->params = $params;
@@ -79,13 +75,10 @@ class MultiMatchQuery implements QueryInterface
             $data['type'] = $this->type;
         }
 
-        if (null !== $this->fuzziness) {
-            $data['fuzziness'] = $this->fuzziness;
-        }
-
         $this->buildOperatorTo($data);
         $this->buildBoostTo($data);
         $this->buildMinimumShouldMatchTo($data);
+        $this->buildFuzzinessTo($data);
 
         $build = $this->params;
         $build['multi_match'] = $data;
