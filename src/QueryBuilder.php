@@ -25,7 +25,13 @@ class QueryBuilder
 
     private ?QueryInterface $query = null;
 
+    private ?array $fields = null;
+
+    private ?array $highlight = null;
+
     private ?QueryInterface $postFilter = null;
+
+    private array $params = [];
 
     public function setSource(array|bool|string|null $source): self
     {
@@ -69,11 +75,33 @@ class QueryBuilder
         return $this;
     }
 
+    public function setFields(?array $fields): self
+    {
+        $this->fields = $fields;
+
+        return $this;
+    }
+
+    public function setHighlight(?array $highlight): self
+    {
+        $this->highlight = $highlight;
+
+        return $this;
+    }
+
+    public function setParams(array $params): self
+    {
+        $this->params = $params;
+
+        return $this;
+    }
+
     public function build(): array
     {
-        $query = [
-            'body' => [],
-        ];
+        $query = $this->params;
+        if (!isset($query['body'])) {
+            $query['body'] = [];
+        }
 
         if (null !== $this->index) {
             $query['index'] = $this->index;
@@ -97,6 +125,14 @@ class QueryBuilder
 
         if (null !== $this->postFilter) {
             $query['body']['post_filter'] = $this->postFilter->build();
+        }
+
+        if (null !== $this->fields) {
+            $query['body']['fields'] = $this->fields;
+        }
+
+        if (null !== $this->highlight) {
+            $query['body']['highlight'] = $this->highlight;
         }
 
         $this->buildSortTo($query['body'])

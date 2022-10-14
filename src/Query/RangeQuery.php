@@ -23,7 +23,8 @@ class RangeQuery implements QueryInterface
         protected int|float|string|null $lte = null,
         protected int|float|string|null $gte = null,
         ?string $format = null,
-        ?float $boost = null
+        ?float $boost = null,
+        protected array $params = [],
     ) {
         $this->field = $field;
         $this->format = $format;
@@ -58,9 +59,16 @@ class RangeQuery implements QueryInterface
         return $this;
     }
 
+    public function setParams(array $params): self
+    {
+        $this->params = $params;
+
+        return $this;
+    }
+
     public function build(): array
     {
-        $query = [];
+        $query = $this->params;
 
         if (null !== $this->gt) {
             $query['gt'] = $this->gt;

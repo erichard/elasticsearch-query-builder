@@ -25,26 +25,22 @@ use Erichard\ElasticQueryBuilder\QueryBuilder;
 use Erichard\ElasticQueryBuilder\Aggregation\Aggregation;
 use Erichard\ElasticQueryBuilder\Filter\Filter;
 
-$query = new QueryBuilder();
+$qb = new QueryBuilder();
 
-$query
+$qb
     ->setIndex('app')
     ->setSize(10)
 ;
 
 // Add an aggregation
-$query->addAggregation(Aggregation::terms('agg_name', 'my_field'));
-$query->addAggregation(Aggregation::terms('agg_name_same_as_field'));
+$qb->addAggregation(Aggregation::terms('agg_name', 'my_field'));
+$qb->addAggregation(Aggregation::terms('agg_name_same_as_field'));
 
-// Add a filter
-$boolFilter = Filter::bool();
-$boolFilter->addFilter(Filter::terms('field', 'value'));
-
-
-$query->addFilter($boolFilter);
+// Set query
+$qb->setQuery(Query::terms('field', 'value'));
 
 // I am using a client from elasticsearch/elasticsearch here
-$results = $client->search($query->build());
+$results = $client->search($qb->build());
 ```
 
 with PHP 8.1 you can use named arguments like this:

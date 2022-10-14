@@ -6,6 +6,7 @@ namespace Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
 use Erichard\ElasticQueryBuilder\Features\HasBoost;
+use Erichard\ElasticQueryBuilder\Features\HasFuzziness;
 use Erichard\ElasticQueryBuilder\Features\HasMinimumShouldMatch;
 use Erichard\ElasticQueryBuilder\Features\HasRewrite;
 
@@ -14,6 +15,7 @@ class QueryStringQuery implements QueryInterface
     use HasBoost;
     use HasMinimumShouldMatch;
     use HasRewrite;
+    use HasFuzziness;
 
     public function __construct(
         protected string $query,
@@ -22,11 +24,14 @@ class QueryStringQuery implements QueryInterface
         protected ?array $fields = null,
         ?float $boost = null,
         ?string $minimumShouldMatch = null,
-        ?string $rewrite = null
+        ?string $rewrite = null,
+        ?string $fuzziness = null,
+        protected array $params = [],
     ) {
         $this->boost = $boost;
         $this->minimumShouldMatch = $minimumShouldMatch;
         $this->rewrite = $rewrite;
+        $this->fuzziness = $fuzziness;
     }
 
     public function setQuery(string $query): self
@@ -57,11 +62,17 @@ class QueryStringQuery implements QueryInterface
         return $this;
     }
 
+    public function setParams(array $params): self
+    {
+        $this->params = $params;
+
+        return $this;
+    }
+
     public function build(): array
     {
-        $build = [
-            'query' => $this->query,
-        ];
+        $build = $this->params;
+        $build['query'] = $this->query;
 
         if (null !== $this->defaultField) {
             $build['default_field'] = $this->defaultField;
@@ -78,6 +89,7 @@ class QueryStringQuery implements QueryInterface
         $this->buildBoostTo($build);
         $this->buildMinimumShouldMatchTo($build);
         $this->buildRewriteTo($build);
+        $this->buildFuzzinessTo($build);
 
         return [
             'query_string' => $build,
