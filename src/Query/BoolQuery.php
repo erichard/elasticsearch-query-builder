@@ -20,6 +20,7 @@ class BoolQuery implements QueryInterface
         private array $mustNot = [],
         private array $should = [],
         private array $filter = [],
+        private array $params = [],
     ) {
     }
 
@@ -75,9 +76,16 @@ class BoolQuery implements QueryInterface
             && empty($this->filter);
     }
 
+    public function setParams(array $params): self
+    {
+        $this->params = $params;
+
+        return $this;
+    }
+
     public function build(): array
     {
-        $query = [];
+        $query = $this->params;
 
         $this
             ->buildQueries($query, 'should', $this->should)

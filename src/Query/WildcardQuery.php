@@ -13,7 +13,8 @@ class WildcardQuery implements QueryInterface
 
     public function __construct(
         string $field,
-        protected string $value
+        protected string $value,
+        protected array $params = [],
     ) {
         $this->field = $field;
     }
@@ -35,12 +36,20 @@ class WildcardQuery implements QueryInterface
         return $string;
     }
 
+    public function setParams(array $params): self
+    {
+        $this->params = $params;
+
+        return $this;
+    }
+
     public function build(): array
     {
-        return [
-            'wildcard' => [
-                $this->field => $this->value,
-            ],
+        $build = $this->params;
+        $build['wildcard'] = [
+            $this->field => $this->value,
         ];
+
+        return $build;
     }
 }

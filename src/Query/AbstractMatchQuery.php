@@ -14,7 +14,8 @@ abstract class AbstractMatchQuery implements QueryInterface
     public function __construct(
         string $field,
         protected string $query,
-        protected ?string $analyzer = null
+        protected ?string $analyzer = null,
+        protected array $params = [],
     ) {
         $this->field = $field;
     }
@@ -33,15 +34,21 @@ abstract class AbstractMatchQuery implements QueryInterface
         return $this;
     }
 
+    public function setParams(array $params): self
+    {
+        $this->params = $params;
+
+        return $this;
+    }
+
     public function build(): array
     {
         $queryName = $this->getQueryName();
 
-        $query = [
-            $queryName => [
-                $this->field => [
-                    'query' => $this->query,
-                ],
+        $query = $this->params;
+        $query[$queryName] = [
+            $this->field => [
+                'query' => $this->query,
             ],
         ];
 

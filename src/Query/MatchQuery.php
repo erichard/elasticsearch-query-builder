@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Erichard\ElasticQueryBuilder\Query;
 
+use Erichard\ElasticQueryBuilder\Features\HasFuzziness;
 use Erichard\ElasticQueryBuilder\Features\HasMinimumShouldMatch;
 use Erichard\ElasticQueryBuilder\Features\HasOperator;
 
@@ -11,23 +12,34 @@ class MatchQuery extends AbstractMatchQuery
 {
     use HasOperator;
     use HasMinimumShouldMatch;
+    use HasFuzziness;
 
     public function __construct(
         string $field,
         string $query,
         ?string $analyzer = null,
         ?string $operator = null,
-        ?string $minimumShouldMatch = null
+        ?string $minimumShouldMatch = null,
+        ?string $fuzziness = null,
+        array $params = [],
     ) {
-        parent::__construct($field, $query, $analyzer);
+        parent::__construct($field, $query, $analyzer, $params);
 
         $this->operator = $operator;
         $this->minimumShouldMatch = $minimumShouldMatch;
+        $this->fuzziness = $fuzziness;
     }
 
     public function getQueryName(): string
     {
         return 'match';
+    }
+
+    public function setParams(array $params): self
+    {
+        $this->params = $params;
+
+        return $this;
     }
 
     public function build(): array
@@ -36,6 +48,7 @@ class MatchQuery extends AbstractMatchQuery
 
         $this->buildOperatorTo($build[$this->getQueryName()][$this->field]);
         $this->buildMinimumShouldMatchTo($build[$this->getQueryName()][$this->field]);
+        $this->buildFuzzinessTo($build[$this->getQueryName()][$this->field]);
 
         return $build;
     }

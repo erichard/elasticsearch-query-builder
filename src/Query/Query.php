@@ -46,7 +46,7 @@ class Query
         int|float|string|null $lt = null,
         int|float|string|null $gt = null,
         int|float|string|null $lte = null,
-        int|float|string|null $gte = null
+        int|float|string|null $gte = null,
     ): RangeQuery {
         return new RangeQuery($field, $lt, $gt, $lte, $gte);
     }
