@@ -1,12 +1,12 @@
 {
-    "name": "janaculenova/elasticsearch-query-builder",
+    "name": "erichard/elasticsearch-query-builder",
     "license": "MIT",
     "type": "library",
     "description": "Create elastic search query with a fluent interface",
     "authors": [
         {
-            "name": "Jana Culenova",
-            "email": "jana.culenova@gmail.com"
+            "name": "Erwan Richard",
+            "email": "erwan.richard@protonmail.com"
         }
     ],
     "autoload": {
