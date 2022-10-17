@@ -9,7 +9,9 @@ use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
 class FunctionScoreQuery implements QueryInterface
 {
     protected ?string $boost = null;
+
     protected ?string $boostMode = null;
+
     private ?array $functions = null;
 
     /**

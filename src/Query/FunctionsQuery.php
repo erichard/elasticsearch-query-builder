@@ -14,7 +14,7 @@ class FunctionsQuery implements QueryInterface
         protected string $field,
     ) {
     }
-    
+
     public function setWeight(float $weight): self
     {
         $this->weight = $weight;
