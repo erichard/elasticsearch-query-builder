@@ -99,7 +99,7 @@ class QueryBuilder
     public function build(): array
     {
         $query = $this->params;
-        if (isset($query['body']) === false) {
+        if (!isset($query['body'])) {
             $query['body'] = [];
         }
 

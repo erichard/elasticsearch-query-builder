@@ -82,7 +82,7 @@ class Query
         string $boost = null,
         string $boostMode = null
     ): FunctionScoreQuery {
-        return new FunctionScoreQuery($fields, $query, $boost, $boostMode/*, $functions*/);
+        return new FunctionScoreQuery($fields, $query, $boost, $boostMode);
     }
 
     public static function functionsQuery(?string $field = null, ?float $weight = null): FunctionsQuery
