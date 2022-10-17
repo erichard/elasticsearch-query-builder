@@ -8,6 +8,8 @@ use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
 
 class FunctionScoreQuery implements QueryInterface
 {
+    protected ?string $boost = null;
+    protected ?string $boostMode = null;
     private ?array $functions = null;
 
     /**
@@ -16,33 +18,17 @@ class FunctionScoreQuery implements QueryInterface
     public function __construct(
         protected array $fields,
         protected string $query,
-        protected ?string $boost = null,
-        protected ?string $boostMode = null,
     ) {
     }
 
-    public function setFields(array $fields): self
-    {
-        $this->fields = $fields;
-
-        return $this;
-    }
-
-    public function setQuery(string $query): self
-    {
-        $this->query = $query;
-
-        return $this;
-    }
-
-    public function setBoost(?string $boost): self
+    public function setBoost(string $boost): self
     {
         $this->boost = $boost;
 
         return $this;
     }
 
-    public function setBoostMode(?string $boostMode): self
+    public function setBoostMode(string $boostMode): self
     {
         $this->boostMode = $boostMode;
 

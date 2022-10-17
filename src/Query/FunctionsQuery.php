@@ -8,19 +8,13 @@ use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
 
 class FunctionsQuery implements QueryInterface
 {
+    protected ?float $weight = null;
+
     public function __construct(
-        protected ?string $field = null,
-        protected ?float $weight = null,
+        protected string $field,
     ) {
     }
-
-    public function setField(string $field): self
-    {
-        $this->field = $field;
-
-        return $this;
-    }
-
+    
     public function setWeight(float $weight): self
     {
         $this->weight = $weight;
