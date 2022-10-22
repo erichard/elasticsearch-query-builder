@@ -76,10 +76,7 @@ class Query
         return new MultiMatchQuery($fields, $query);
     }
 
-    public static function functionScoreQuery(
-        array $fields,
-        string $query
-    ): FunctionScoreQuery {
+    public static function functionScoreQuery(array $fields, string $query): FunctionScoreQuery {
         return new FunctionScoreQuery($fields, $query);
     }
 
