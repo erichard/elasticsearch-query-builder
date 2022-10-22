@@ -78,16 +78,14 @@ class Query
 
     public static function functionScoreQuery(
         array $fields,
-        string $query,
-        string $boost = null,
-        string $boostMode = null
+        string $query
     ): FunctionScoreQuery {
-        return new FunctionScoreQuery($fields, $query, $boost, $boostMode);
+        return new FunctionScoreQuery($fields, $query);
     }
 
-    public static function functionsQuery(?string $field = null, ?float $weight = null): FunctionsQuery
+    public static function functionsQuery(string $field): FunctionsQuery
     {
-        return new FunctionsQuery($field, $weight);
+        return new FunctionsQuery($field);
     }
 
     /**
