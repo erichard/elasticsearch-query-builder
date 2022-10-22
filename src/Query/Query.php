@@ -76,18 +76,13 @@ class Query
         return new MultiMatchQuery($fields, $query);
     }
 
-    public static function functionScoreQuery(
-        array $fields,
-        string $query,
-        string $boost = null,
-        string $boostMode = null
-    ): FunctionScoreQuery {
-        return new FunctionScoreQuery($fields, $query, $boost, $boostMode);
+    public static function functionScoreQuery(array $fields, string $query): FunctionScoreQuery {
+        return new FunctionScoreQuery($fields, $query);
     }
 
-    public static function functionsQuery(?string $field = null, ?float $weight = null): FunctionsQuery
+    public static function functionsQuery(string $field): FunctionsQuery
     {
-        return new FunctionsQuery($field, $weight);
+        return new FunctionsQuery($field);
     }
 
     /**
