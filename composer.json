@@ -31,7 +31,7 @@
         "symplify/easy-coding-standard": "^10.1"
     },
     "scripts": {
-        "lint:fix": "./vendor/bin/ecs --fix",
+        "lint:fix": "./vendor/bin/ecs --fix--clear-cache --no-progress-bar",
         "lint:stan": "./vendor/bin/phpstan",
         "lint:upgrade": "vendor/bin/rector process",
         "lint": "composer lint:fix && composer lint:upgrade && composer lint:stan",
