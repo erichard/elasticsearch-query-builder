@@ -76,6 +76,15 @@ class Query
         return new MultiMatchQuery($fields, $query);
     }
 
+    public static function functionScoreQuery(array $fields, string $query): FunctionScoreQuery {
+        return new FunctionScoreQuery($fields, $query);
+    }
+
+    public static function functionsQuery(string $field): FunctionsQuery
+    {
+        return new FunctionsQuery($field);
+    }
+
     /**
      * @param float[]|int[] $position
      */
