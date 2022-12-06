@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Erichard\ElasticQueryBuilder\Query;
 
@@ -12,9 +10,9 @@ use Erichard\ElasticQueryBuilder\QueryException;
 
 class RangeQuery implements QueryInterface
 {
+    use HasBoost;
     use HasField;
     use HasFormat;
-    use HasBoost;
 
     public function __construct(
         string $field,

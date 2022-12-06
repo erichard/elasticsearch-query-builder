@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Erichard\ElasticQueryBuilder\Query;
 
@@ -12,10 +10,10 @@ use Erichard\ElasticQueryBuilder\Features\HasOperator;
 
 class MultiMatchQuery implements QueryInterface
 {
-    use HasOperator;
     use HasBoost;
-    use HasMinimumShouldMatch;
     use HasFuzziness;
+    use HasMinimumShouldMatch;
+    use HasOperator;
 
     /**
      * @param mixed[]|string[] $fields

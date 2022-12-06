@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Erichard\ElasticQueryBuilder;
 
@@ -11,9 +9,9 @@ use Erichard\ElasticQueryBuilder\Features\HasSorting;
 
 class QueryBuilder
 {
+    use HasAggregations;
     use HasCollapse;
     use HasSorting;
-    use HasAggregations;
 
     private ?string $index = null;
 

@@ -1,13 +1,10 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
 use Erichard\ElasticQueryBuilder\Entities\GpsPointEntity;
 use Erichard\ElasticQueryBuilder\Features\HasField;
-use Exception;
 
 /**
  * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-geo-bounding-box-query.html
@@ -36,7 +33,7 @@ class GeoBoundingBoxQuery implements QueryInterface
         ]);
 
         if (count($filters) < 2) {
-            throw new Exception('GeoBoundingBoxQuery needs at least 2 sides set');
+            throw new \Exception('GeoBoundingBoxQuery needs at least 2 sides set');
         }
 
         return [

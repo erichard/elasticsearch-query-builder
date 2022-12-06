@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Erichard\ElasticQueryBuilder\Query;
 
@@ -14,9 +12,9 @@ use Erichard\ElasticQueryBuilder\Features\HasField;
  */
 class TermQuery implements QueryInterface
 {
-    use HasField;
     use HasBoost;
     use HasCaseInsensitive;
+    use HasField;
 
     public function __construct(
         string $field,

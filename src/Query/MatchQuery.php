@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Erichard\ElasticQueryBuilder\Query;
 
@@ -10,9 +8,9 @@ use Erichard\ElasticQueryBuilder\Features\HasOperator;
 
 class MatchQuery extends AbstractMatchQuery
 {
-    use HasOperator;
-    use HasMinimumShouldMatch;
     use HasFuzziness;
+    use HasMinimumShouldMatch;
+    use HasOperator;
 
     public function __construct(
         string $field,

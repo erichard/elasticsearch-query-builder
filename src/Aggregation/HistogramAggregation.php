@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Erichard\ElasticQueryBuilder\Aggregation;
 
@@ -9,8 +7,8 @@ use Erichard\ElasticQueryBuilder\Features\HasField;
 
 class HistogramAggregation extends AbstractAggregation
 {
-    use HasField;
     use HasExtendedBounds;
+    use HasField;
 
     /**
      * @param array<AbstractAggregation> $aggregations

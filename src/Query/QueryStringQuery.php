@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Erichard\ElasticQueryBuilder\Query;
 
@@ -13,9 +11,9 @@ use Erichard\ElasticQueryBuilder\Features\HasRewrite;
 class QueryStringQuery implements QueryInterface
 {
     use HasBoost;
+    use HasFuzziness;
     use HasMinimumShouldMatch;
     use HasRewrite;
-    use HasFuzziness;
 
     public function __construct(
         protected string $query,

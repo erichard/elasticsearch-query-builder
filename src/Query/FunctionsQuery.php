@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Erichard\ElasticQueryBuilder\Query;
 
@@ -12,8 +10,7 @@ class FunctionsQuery implements QueryInterface
 
     public function __construct(
         protected string $field,
-    ) {
-    }
+    ) {}
 
     public function setWeight(float $weight): self
     {

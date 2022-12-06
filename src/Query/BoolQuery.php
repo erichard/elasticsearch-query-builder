@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Erichard\ElasticQueryBuilder\Query;
 
@@ -21,8 +19,7 @@ class BoolQuery implements QueryInterface
         private array $should = [],
         private array $filter = [],
         private array $params = [],
-    ) {
-    }
+    ) {}
 
     public function addMust(QueryInterface $query): self
     {

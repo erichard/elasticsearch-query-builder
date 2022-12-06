@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Erichard\ElasticQueryBuilder\Query;
 
@@ -18,8 +16,7 @@ class GeoShapeQuery implements QueryInterface
         private string $type,
         private array $coordinates,
         private array $params = [],
-    ) {
-    }
+    ) {}
 
     public function setType(string $type): self
     {

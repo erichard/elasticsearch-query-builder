@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Erichard\ElasticQueryBuilder\Query;
 
@@ -10,8 +8,8 @@ use Erichard\ElasticQueryBuilder\Features\HasField;
 
 class TermsQuery implements QueryInterface
 {
-    use HasField;
     use HasBoost;
+    use HasField;
 
     /**
      * @param array<int, string|int|float|bool> $values

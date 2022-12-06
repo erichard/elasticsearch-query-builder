@@ -2,3 +2,4 @@ vendor
 composer.lock
 .phpunit.result.cache
 .editorconfig
+.php-cs-fixer.cache

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Erichard\ElasticQueryBuilder\Query;
 
@@ -20,8 +18,7 @@ class FunctionScoreQuery implements QueryInterface
     public function __construct(
         protected array $fields,
         protected string $query,
-    ) {
-    }
+    ) {}
 
     public function setBoost(string $boost): self
     {

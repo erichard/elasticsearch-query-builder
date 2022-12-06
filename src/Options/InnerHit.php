@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Erichard\ElasticQueryBuilder\Options;
 
@@ -13,8 +11,8 @@ use Erichard\ElasticQueryBuilder\Features\HasSorting;
  */
 class InnerHit implements BuildsArray
 {
-    use HasSorting;
     use HasCollapse;
+    use HasSorting;
 
     public function __construct(
         protected string $name,
@@ -26,8 +24,7 @@ class InnerHit implements BuildsArray
          * The offset from where the first hit to fetch for each inner_hits in the returned regular search hits.
          */
         protected ?string $from = null
-    ) {
-    }
+    ) {}
 
     public function build(): array
     {

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Erichard\ElasticQueryBuilder\Query;
 
@@ -14,9 +12,9 @@ use Erichard\ElasticQueryBuilder\Features\HasRewrite;
  */
 class PrefixQuery implements QueryInterface
 {
+    use HasCaseInsensitive;
     use HasField;
     use HasRewrite;
-    use HasCaseInsensitive;
 
     public function __construct(
         string $field,
