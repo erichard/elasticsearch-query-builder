@@ -29,7 +29,7 @@ return (new PhpCsFixer\Config())
         PhpCsFixerCustomFixers\Fixer\DeclareAfterOpeningTagFixer::name() => true,
         PhpCsFixerCustomFixers\Fixer\NoDoctrineMigrationsGeneratedCommentFixer::name() => true,
         PhpCsFixerCustomFixers\Fixer\NoImportFromGlobalNamespaceFixer::name() => true,
-        PhpCsFixerCustomFixers\Fixer\PromotedConstructorPropertyFixer::name() => true,
+        //PhpCsFixerCustomFixers\Fixer\PromotedConstructorPropertyFixer::name() => true,
         PhpCsFixerCustomFixers\Fixer\ConstructorEmptyBracesFixer::name() => true,
         PhpCsFixerCustomFixers\Fixer\MultilinePromotedPropertiesFixer::name() => true,
         PhpCsFixerCustomFixers\Fixer\NoUselessDoctrineRepositoryCommentFixer::name() => true,
