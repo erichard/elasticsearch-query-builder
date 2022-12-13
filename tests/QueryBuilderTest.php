@@ -64,27 +64,27 @@ class QueryBuilderTest extends TestCase
         $this->assertEquals(50, $query['from']);
     }
 
-	public function testItSetThePitAsString(): void
-	{
-		$queryBuilder = new QueryBuilder();
+    public function testItSetThePitAsString(): void
+    {
+        $queryBuilder = new QueryBuilder();
 
-		$queryBuilder->setPit('pit-as-string');
+        $queryBuilder->setPit('pit-as-string');
 
-		$query = $queryBuilder->build();
+        $query = $queryBuilder->build();
 
-		$this->assertEquals(['id' => 'pit-as-string'], $query['pit']);
-	}
+        $this->assertEquals(['id' => 'pit-as-string'], $query['pit']);
+    }
 
-	public function testItSetThePitAsArray(): void
-	{
-		$queryBuilder = new QueryBuilder();
+    public function testItSetThePitAsArray(): void
+    {
+        $queryBuilder = new QueryBuilder();
 
-		$queryBuilder->setPit(['id' => 'pit-as-array', 'keep_alive' => '1m']);
+        $queryBuilder->setPit(['id' => 'pit-as-array', 'keep_alive' => '1m']);
 
-		$query = $queryBuilder->build();
+        $query = $queryBuilder->build();
 
-		$this->assertEquals(['id' => 'pit-as-array', 'keep_alive' => '1m'], $query['pit']);
-	}
+        $this->assertEquals(['id' => 'pit-as-array', 'keep_alive' => '1m'], $query['pit']);
+    }
 
     public function testItAllowToSort(): void
     {

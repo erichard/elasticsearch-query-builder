@@ -21,9 +21,9 @@ class QueryBuilder
 
     private ?int $size = null;
 
-	private string|array|null $pit = null;
+    private string|array|null $pit = null;
 
-	private ?array $searchAfter = null;
+    private ?array $searchAfter = null;
 
     private ?QueryInterface $query = null;
 
@@ -63,23 +63,23 @@ class QueryBuilder
         return $this;
     }
 
-	public function setPit(string|array|null $pit): self
-	{
-		if (is_array($pit) && !isset($pit['id'])) {
-			throw new \InvalidArgumentException('Parameter "pit" is not valid. Value with key "id" is not set.');
-		}
+    public function setPit(string|array|null $pit): self
+    {
+        if (is_array($pit) && !isset($pit['id'])) {
+            throw new \InvalidArgumentException('Parameter "pit" is not valid. Value with key "id" is not set.');
+        }
 
-		$this->pit = $pit;
+        $this->pit = $pit;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setSearchAfter(?array $searchAfter): self
-	{
-		$this->searchAfter = $searchAfter;
+    public function setSearchAfter(?array $searchAfter): self
+    {
+        $this->searchAfter = $searchAfter;
 
-		return $this;
-	}
+        return $this;
+    }
 
     public function setQuery(QueryInterface $query): self
     {
@@ -135,17 +135,17 @@ class QueryBuilder
             $query['size'] = $this->size;
         }
 
-		if (null !== $this->pit) {
-			if (is_string($this->pit)) {
-				$query['pit'] = ['id' => $this->pit];
-			} else {
-				$query['pit'] = $this->pit;
-			}
-		}
+        if (null !== $this->pit) {
+            if (is_string($this->pit)) {
+                $query['pit'] = ['id' => $this->pit];
+            } else {
+                $query['pit'] = $this->pit;
+            }
+        }
 
-		if (null !== $this->searchAfter) {
-			$query['search_after'] = $this->searchAfter;
-		}
+        if (null !== $this->searchAfter) {
+            $query['search_after'] = $this->searchAfter;
+        }
 
         if (null !== $this->source) {
             $query['_source'] = $this->source;
@@ -189,15 +189,15 @@ class QueryBuilder
         return $this->size;
     }
 
-	public function getPit(): string|array|null
-	{
-		return $this->pit;
-	}
+    public function getPit(): string|array|null
+    {
+        return $this->pit;
+    }
 
-	public function getSearchAfter(): ?array
-	{
-		return $this->searchAfter;
-	}
+    public function getSearchAfter(): ?array
+    {
+        return $this->searchAfter;
+    }
 
     public function getQuery(): ?QueryInterface
     {
