@@ -51,4 +51,18 @@ class MatchQueryTest extends TestCase
             ],
         ], $query->build());
     }
+
+
+    public function testItBuildTheQueryWithIntefer(): void
+    {
+        $query = new MatchQuery('count', 1);
+
+        $this->assertEquals([
+            'match' => [
+                'count' => [
+                    'query' => 1
+                ],
+            ],
+        ], $query->build());
+    }
 }
