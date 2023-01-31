@@ -14,7 +14,7 @@ class MatchQuery extends AbstractMatchQuery
 
     public function __construct(
         string $field,
-        string $query,
+        string|bool $query,
         ?string $analyzer = null,
         ?string $operator = null,
         ?string $minimumShouldMatch = null,

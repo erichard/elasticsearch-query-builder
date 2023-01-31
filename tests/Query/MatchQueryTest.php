@@ -38,4 +38,17 @@ class MatchQueryTest extends TestCase
             ],
         ], $query->build());
     }
+
+    public function testItBuildTheQueryWithBoolean(): void
+    {
+        $query = new MatchQuery('is_closed', true);
+
+        $this->assertEquals([
+            'match' => [
+                'is_closed' => [
+                    'query' => 'a brown fox'
+                ],
+            ],
+        ], $query->build());
+    }
 }
