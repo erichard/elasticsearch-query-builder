@@ -52,7 +52,7 @@ class MatchQueryTest extends TestCase
     }
 
 
-    public function testItBuildTheQueryWithIntefer(): void
+    public function testItBuildTheQueryWithInteger(): void
     {
         $query = new MatchQuery('count', 1);
 
