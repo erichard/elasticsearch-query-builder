@@ -42,11 +42,10 @@ class MatchQueryTest extends TestCase
     public function testItBuildTheQueryWithBoolean(): void
     {
         $query = new MatchQuery('is_closed', true);
-
-        $this->assertEquals([
+        $this->assertSame([
             'match' => [
                 'is_closed' => [
-                    'query' => 'a brown fox'
+                    'query' => true
                 ],
             ],
         ], $query->build());
@@ -57,7 +56,7 @@ class MatchQueryTest extends TestCase
     {
         $query = new MatchQuery('count', 1);
 
-        $this->assertEquals([
+        $this->assertSame([
             'match' => [
                 'count' => [
                     'query' => 1
