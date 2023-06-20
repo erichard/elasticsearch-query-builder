@@ -38,4 +38,30 @@ class MatchQueryTest extends TestCase
             ],
         ], $query->build());
     }
+
+    public function testItBuildTheQueryWithBoolean(): void
+    {
+        $query = new MatchQuery('is_closed', true);
+        $this->assertSame([
+            'match' => [
+                'is_closed' => [
+                    'query' => true
+                ],
+            ],
+        ], $query->build());
+    }
+
+
+    public function testItBuildTheQueryWithInteger(): void
+    {
+        $query = new MatchQuery('count', 1);
+
+        $this->assertSame([
+            'match' => [
+                'count' => [
+                    'query' => 1
+                ],
+            ],
+        ], $query->build());
+    }
 }

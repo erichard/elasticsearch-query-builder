@@ -11,7 +11,7 @@ abstract class AbstractMatchQuery implements QueryInterface
 
     public function __construct(
         string $field,
-        protected string $query,
+        protected string|bool|int $query,
         protected ?string $analyzer = null,
         protected array $params = [],
     ) {
