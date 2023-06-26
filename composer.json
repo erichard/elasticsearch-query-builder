@@ -1,5 +1,5 @@
 {
-    "name": "erichard/elasticsearch-query-builder",
+    "name": "reihvalds/elasticsearch-query-builder",
     "license": "MIT",
     "type": "library",
     "description": "Create elastic search query with a fluent interface",

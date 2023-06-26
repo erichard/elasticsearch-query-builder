@@ -32,6 +32,11 @@ class QueryBuilder
      */
     private $sort = [];
 
+    /**
+     * @var array
+     */
+    private $fields = [];
+
     public function __construct(array $query = [])
     {
         $this->query = $query;
@@ -64,6 +69,15 @@ class QueryBuilder
 
         return $this;
     }
+
+    public function setFields(array $fields = [])
+    {
+        if (!empty($fields)) {
+            $this->query['_source'] = $fields;
+        }
+        return $this;
+    }
+
 
     public function addSort($field, array $config)
     {
