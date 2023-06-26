@@ -137,14 +137,14 @@ class QueryBuilder
 
         if (null !== $this->pit) {
             if (is_string($this->pit)) {
-                $query['pit'] = ['id' => $this->pit];
+                $query['body']['pit'] = ['id' => $this->pit];
             } else {
-                $query['pit'] = $this->pit;
+                $query['body']['pit'] = $this->pit;
             }
         }
 
         if (null !== $this->searchAfter) {
-            $query['search_after'] = $this->searchAfter;
+            $query['body']['search_after'] = $this->searchAfter;
         }
 
         if (null !== $this->source) {
