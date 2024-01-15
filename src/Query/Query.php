@@ -84,6 +84,11 @@ class Query
         return new FunctionsQuery($field);
     }
 
+    public static function GeoBoundingBoxQuery(string $field): GeoBoundingBoxQuery
+    {
+        return new GeoBoundingBoxQuery($field);
+    }
+
     /**
      * @param float[]|int[] $position
      */
@@ -113,5 +118,18 @@ class Query
     public static function rankFeature(string $field): RankFeatureQuery
     {
         return new RankFeatureQuery($field);
+    }
+
+    public static function exists(string $field): ExistsQuery
+    {
+        return new ExistsQuery($field);
+    }
+
+    /**
+     * @param mixed[]|string[] $fields
+     */
+    public static function simpleQueryString(array $fields, string $query): SimpleQueryStringQuery
+    {
+        return new SimpleQueryStringQuery($fields, $query);
     }
 }
