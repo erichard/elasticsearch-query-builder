@@ -49,9 +49,9 @@ class Query
         return new RangeQuery($field, $lt, $gt, $lte, $gte);
     }
 
-    public static function nested(string $field, QueryInterface $query): NestedQuery
+    public static function nested(?string $path, QueryInterface $query): NestedQuery
     {
-        return new NestedQuery($field, $query);
+        return new NestedQuery($path, $query);
     }
 
     public static function match(string $field, string $query): MatchQuery
