@@ -110,7 +110,7 @@ class Query
         return new PrefixQuery($field, $value);
     }
 
-    public static function queryString(string $query, string $defaultField = null): QueryStringQuery
+    public static function queryString(string $query, ?string $defaultField = null): QueryStringQuery
     {
         return new QueryStringQuery($query, $defaultField);
     }

@@ -15,7 +15,6 @@ class SimpleQueryStringQuery implements QueryInterface
     public function __construct(
         protected array $fields,
         protected string $query,
-
         private ?string $flags = null,
         private ?bool $fuzzyTranspositions = null,
         private ?int $fuzzyMaxExpansions = null,
@@ -27,7 +26,6 @@ class SimpleQueryStringQuery implements QueryInterface
         private ?string $quoteFieldSuffix = null,
         private ?bool $analyzeWildCard = null,
         private ?bool $autoGenerateSynonymsPhraseQuery = null,
-
         protected array $params = [],
     ) {
         $this->minimumShouldMatch = $minimumShouldMatch;
@@ -36,69 +34,70 @@ class SimpleQueryStringQuery implements QueryInterface
     public function setFlags(string|null $flags): self
     {
         $this->flags = $flags;
+
         return $this;
     }
-
 
     public function setFuzzyTranspositions(bool|null $fuzzyTranspositions): self
     {
         $this->fuzzyTranspositions = $fuzzyTranspositions;
+
         return $this;
     }
-
 
     public function setFuzzyMaxExpansions(int|null $fuzzyMaxExpansions): self
     {
         $this->fuzzyMaxExpansions = $fuzzyMaxExpansions;
+
         return $this;
     }
-
 
     public function setFuzzyPrefixLength(int|null $fuzzyPrefixLength): self
     {
         $this->fuzzyPrefixLength = $fuzzyPrefixLength;
+
         return $this;
     }
-
 
     public function setDefaultOperator(string|null $defaultOperator): self
     {
         $this->defaultOperator = $defaultOperator;
+
         return $this;
     }
-
 
     public function setAnalyzer(string|null $analyzer): self
     {
         $this->analyzer = $analyzer;
+
         return $this;
     }
-
 
     public function setLenient(bool|null $lenient): self
     {
         $this->lenient = $lenient;
+
         return $this;
     }
-
 
     public function setQuoteFieldSuffix(string|null $quoteFieldSuffix): self
     {
         $this->quoteFieldSuffix = $quoteFieldSuffix;
+
         return $this;
     }
-
 
     public function setAnalyzeWildCard(bool|null $analyzeWildCard): self
     {
         $this->analyzeWildCard = $analyzeWildCard;
+
         return $this;
     }
-
 
     public function setAutoGenerateSynonymsPhraseQuery(bool|null $autoGenerateSynonymsPhraseQuery): self
     {
         $this->autoGenerateSynonymsPhraseQuery = $autoGenerateSynonymsPhraseQuery;
+
         return $this;
     }
 
