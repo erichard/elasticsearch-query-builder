@@ -3,10 +3,12 @@
 namespace Erichard\ElasticQueryBuilder\Query;
 
 use Erichard\ElasticQueryBuilder\Contracts\QueryInterface;
+use Erichard\ElasticQueryBuilder\Features\HasBoost;
 use Erichard\ElasticQueryBuilder\Features\HasMinimumShouldMatch;
 
 class SimpleQueryStringQuery implements QueryInterface
 {
+    use HasBoost;
     use HasMinimumShouldMatch;
 
     /**
@@ -167,6 +169,7 @@ class SimpleQueryStringQuery implements QueryInterface
         }
 
         $this->buildMinimumShouldMatchTo($data);
+        $this->buildBoostTo($data);
 
         $build = $this->params;
         $build['simple_query_string'] = $data;
