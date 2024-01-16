@@ -12,13 +12,13 @@ class GeoBoundingBoxQueryTest extends TestCase
 {
     public function testBuildFailsOnAllNull(): void
     {
-        $this->expectErrorMessage('GeoBoundingBoxQuery needs at least 2 sides set');
+        $this->expectExceptionMessage('GeoBoundingBoxQuery needs at least 2 sides set');
         (new GeoBoundingBoxQuery('test'))->build();
     }
 
     public function testBuildFailsOnOneFilter(): void
     {
-        $this->expectErrorMessage('GeoBoundingBoxQuery needs at least 2 sides set');
+        $this->expectExceptionMessage('GeoBoundingBoxQuery needs at least 2 sides set');
         (new GeoBoundingBoxQuery(field: 'test', topLeft: new GpsPointEntity(1.1, 2.1)))->build();
     }
 

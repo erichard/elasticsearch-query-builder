@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
 
+use PhpCsFixer\Fixer\FunctionNotation\NullableTypeDeclarationForDefaultNullValueFixer;
+
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__ . '/src')
     ->exclude(__DIR__ . '/tests')
@@ -26,6 +28,7 @@ return (new PhpCsFixer\Config())
         'concat_space' => false,
         'declare_strict_types' => true,
         'native_function_invocation' => ['include' => []],
+        'nullable_type_declaration_for_default_null_value' => ['use_nullable_type_declaration' => true],
         PhpCsFixerCustomFixers\Fixer\DeclareAfterOpeningTagFixer::name() => true,
         PhpCsFixerCustomFixers\Fixer\NoDoctrineMigrationsGeneratedCommentFixer::name() => true,
         PhpCsFixerCustomFixers\Fixer\NoImportFromGlobalNamespaceFixer::name() => true,

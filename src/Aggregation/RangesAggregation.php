@@ -14,7 +14,7 @@ class RangesAggregation extends AbstractAggregation
      * @param array<int>                 $ranges                  pass desired ranges that will be converted to
      *                                                            linear range
      * @param array<AbstractAggregation> $aggregations
-     * @param bool                       $equalConditionOnToRange Se to true if you want to do a histogram with 0
+     * @param bool                       $equalConditionOnToRange Set to true if you want to do a histogram with 0
      *                                                            - 10, 10 - 15, and correctly count the number
      *                                                            (entry with 10 will be in first and seconds
      *                                                            segment

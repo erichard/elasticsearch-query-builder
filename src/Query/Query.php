@@ -49,9 +49,9 @@ class Query
         return new RangeQuery($field, $lt, $gt, $lte, $gte);
     }
 
-    public static function nested(string $field, QueryInterface $query): NestedQuery
+    public static function nested(?string $path, QueryInterface $query): NestedQuery
     {
-        return new NestedQuery($field, $query);
+        return new NestedQuery($path, $query);
     }
 
     public static function match(string $field, string $query): MatchQuery
@@ -84,6 +84,11 @@ class Query
         return new FunctionsQuery($field);
     }
 
+    public static function GeoBoundingBoxQuery(string $field): GeoBoundingBoxQuery
+    {
+        return new GeoBoundingBoxQuery($field);
+    }
+
     /**
      * @param float[]|int[] $position
      */
@@ -105,7 +110,7 @@ class Query
         return new PrefixQuery($field, $value);
     }
 
-    public static function queryString(string $query, string $defaultField = null): QueryStringQuery
+    public static function queryString(string $query, ?string $defaultField = null): QueryStringQuery
     {
         return new QueryStringQuery($query, $defaultField);
     }
@@ -113,5 +118,18 @@ class Query
     public static function rankFeature(string $field): RankFeatureQuery
     {
         return new RankFeatureQuery($field);
+    }
+
+    public static function exists(string $field): ExistsQuery
+    {
+        return new ExistsQuery($field);
+    }
+
+    /**
+     * @param mixed[]|string[] $fields
+     */
+    public static function simpleQueryString(array $fields, string $query): SimpleQueryStringQuery
+    {
+        return new SimpleQueryStringQuery($fields, $query);
     }
 }

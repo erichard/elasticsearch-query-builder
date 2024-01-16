@@ -72,7 +72,7 @@ class QueryBuilderTest extends TestCase
 
         $query = $queryBuilder->build();
 
-        $this->assertEquals(['id' => 'pit-as-string'], $query['pit']);
+        $this->assertEquals(['id' => 'pit-as-string'], $query['body']['pit']);
     }
 
     public function testItSetThePitAsArray(): void
@@ -83,7 +83,7 @@ class QueryBuilderTest extends TestCase
 
         $query = $queryBuilder->build();
 
-        $this->assertEquals(['id' => 'pit-as-array', 'keep_alive' => '1m'], $query['pit']);
+        $this->assertEquals(['id' => 'pit-as-array', 'keep_alive' => '1m'], $query['body']['pit']);
     }
 
     public function testItAllowToSort(): void

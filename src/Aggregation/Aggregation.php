@@ -107,4 +107,27 @@ class Aggregation
     {
         return new TopHitsAggregation($name, $aggregations);
     }
+
+    public static function histogram(string $name, string $field, int $interval): HistogramAggregation
+    {
+        return new HistogramAggregation($name, $field, $interval);
+    }
+
+    /**
+     * @param array<int> $ranges pass desired ranges that will be converted to linear range
+     */
+    public static function ranges(string $name, string $field, array $ranges): RangesAggregation
+    {
+        return new RangesAggregation($name, $field, $ranges);
+    }
+
+    public static function widthHistogram(string $name, string $field, int $buckets): WidthHistogramAggregation
+    {
+        return new WidthHistogramAggregation($name, $field, $buckets);
+    }
+
+    public static function stats(string $name): StatsAggregation
+    {
+        return new StatsAggregation($name);
+    }
 }
