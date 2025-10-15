@@ -131,8 +131,8 @@ class Aggregation
         return new StatsAggregation($name);
     }
 
-    public static function valueCount(string $name, string $field, array $aggregations = []): ValueCountAggregation
+    public static function valueCount(string $name): ValueCountAggregation
     {
-        return new ValueCountAggregation($name, $field, $aggregations);
+        return new ValueCountAggregation($name);
     }
 }
