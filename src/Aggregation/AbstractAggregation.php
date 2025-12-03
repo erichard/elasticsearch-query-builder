@@ -14,7 +14,7 @@ abstract class AbstractAggregation implements BuildsArray
      */
     public function __construct(
         private string $name,
-        array $aggregations = []
+        array $aggregations = [],
     ) {
         $this->aggregations = $aggregations;
     }
@@ -24,8 +24,14 @@ abstract class AbstractAggregation implements BuildsArray
      */
     public function build(): array
     {
+        $build = $this->buildAggregation();
+
+        if ([] === $build) {
+            $build = new \stdClass();
+        }
+
         $data = [
-            $this->getType() => $this->buildAggregation(),
+            $this->getType() => $build,
         ];
 
         $this->buildAggregationsTo($data);

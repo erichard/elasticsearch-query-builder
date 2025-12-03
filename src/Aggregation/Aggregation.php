@@ -15,7 +15,7 @@ class Aggregation
     public static function terms(
         string $name,
         string|Field|InlineScript $fieldOrSource,
-        array $aggregations = []
+        array $aggregations = [],
     ): TermsAggregation {
         return new TermsAggregation($name, $fieldOrSource, $aggregations);
     }
@@ -27,7 +27,7 @@ class Aggregation
         string $nameAndField,
         string $calendarInterval,
         ?string $field = null,
-        array $aggregations = []
+        array $aggregations = [],
     ): DateHistogramAggregation {
         return new DateHistogramAggregation($nameAndField, $calendarInterval, $field, $aggregations);
     }
@@ -43,7 +43,7 @@ class Aggregation
     /**
      * @param array<AbstractAggregation> $aggregations
      */
-    public static function reverseNested(string $name, string $path, array $aggregations = []): ReverseNestedAggregation
+    public static function reverseNested(string $name, ?string $path = null, array $aggregations = []): ReverseNestedAggregation
     {
         return new ReverseNestedAggregation($name, $path, $aggregations);
     }
@@ -62,7 +62,7 @@ class Aggregation
     public static function cardinality(
         string $nameAndField,
         string|SourceScript|Field|null $fieldOrSource = null,
-        array $aggregations = []
+        array $aggregations = [],
     ): CardinalityAggregation {
         return new CardinalityAggregation($nameAndField, $fieldOrSource, $aggregations);
     }
@@ -73,7 +73,7 @@ class Aggregation
     public static function max(
         string $nameAndField,
         string|SourceScript|Field|null $fieldOrSource = null,
-        array $aggregations = []
+        array $aggregations = [],
     ): MaxAggregation {
         return new MaxAggregation($nameAndField, $fieldOrSource, $aggregations);
     }
@@ -84,7 +84,7 @@ class Aggregation
     public static function min(
         string $nameAndField,
         string|SourceScript|Field|null $fieldOrSource = null,
-        array $aggregations = []
+        array $aggregations = [],
     ): MinAggregation {
         return new MinAggregation($nameAndField, $fieldOrSource, $aggregations);
     }
@@ -95,7 +95,7 @@ class Aggregation
     public static function sum(
         string $nameAndField,
         string|SourceScript|Field|null $fieldOrSource = null,
-        array $aggregations = []
+        array $aggregations = [],
     ): SumAggregation {
         return new SumAggregation($nameAndField, $fieldOrSource, $aggregations);
     }

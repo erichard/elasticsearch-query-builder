@@ -9,8 +9,8 @@ class NestedAggregation extends AbstractAggregation
      */
     public function __construct(
         string $name,
-        private string $path,
-        array $aggregations = []
+        private ?string $path = null,
+        array $aggregations = [],
     ) {
         parent::__construct($name, $aggregations);
     }
@@ -34,6 +34,10 @@ class NestedAggregation extends AbstractAggregation
 
     protected function buildAggregation(): array
     {
+        if (null === $this->path) {
+            return [];
+        }
+
         return [
             'path' => $this->path,
         ];
