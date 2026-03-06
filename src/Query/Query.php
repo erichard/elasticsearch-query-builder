@@ -120,6 +120,11 @@ class Query
         return new RankFeatureQuery($field);
     }
 
+    public static function constantScore(QueryInterface $filter, float $boost = 1.0): ConstantScoreQuery
+    {
+        return new ConstantScoreQuery($filter, $boost);
+    }
+
     public static function exists(string $field): ExistsQuery
     {
         return new ExistsQuery($field);
